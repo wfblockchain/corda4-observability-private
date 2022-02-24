@@ -1,0 +1,704 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
+        "type": "dashboard"
+      }
+    ]
+  },
+  "description": "All Corda nodes should have a label {group=\"corda\"}",
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 5,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 16,
+      "panels": [],
+      "title": "My Corda Nodes",
+      "type": "row"
+    },
+    {
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            {
+              "options": {
+                "0": {
+                  "index": 1,
+                  "text": "DOWN"
+                },
+                "1": {
+                  "index": 0,
+                  "text": "UP"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "green",
+                "value": 1
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 3,
+        "x": 0,
+        "y": 1
+      },
+      "id": 2,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "8.3.4",
+      "targets": [
+        {
+          "expr": "up{group=\"corda\"}",
+          "interval": "",
+          "legendFormat": "{{ node }}",
+          "refId": "A"
+        }
+      ],
+      "type": "stat"
+    },
+    {
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "rgb(255, 255, 255)",
+                "value": null
+              }
+            ]
+          },
+          "unit": "dtdurationms"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 3,
+        "x": 3,
+        "y": 1
+      },
+      "id": 18,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "max"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "8.3.4",
+      "targets": [
+        {
+          "expr": "java_lang_Runtime_Uptime",
+          "interval": "",
+          "legendFormat": "{{ node }}",
+          "refId": "A"
+        }
+      ],
+      "title": "Uptime",
+      "type": "stat"
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "fieldConfig": {
+        "defaults": {
+          "links": []
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 6,
+        "w": 11,
+        "x": 6,
+        "y": 1
+      },
+      "hiddenSeries": false,
+      "id": 12,
+      "legend": {
+        "alignAsTable": false,
+        "avg": true,
+        "current": false,
+        "hideEmpty": false,
+        "hideZero": false,
+        "max": true,
+        "min": false,
+        "rightSide": false,
+        "show": true,
+        "total": false,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "8.3.4",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "rate(process_cpu_seconds_total{group=\"corda\"}[5m])*100",
+          "interval": "",
+          "legendFormat": "{{ node }}",
+          "refId": "A"
+        }
+      ],
+      "thresholds": [],
+      "timeRegions": [],
+      "title": "CPU Usage (5m)",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "percent",
+          "logBase": 1,
+          "show": true
+        },
+        {
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
+    },
+    {
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 7,
+        "x": 17,
+        "y": 1
+      },
+      "id": 8,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "8.3.4",
+      "targets": [
+        {
+          "expr": "net_corda_Flows_Count{name=\"Finished\"}",
+          "interval": "",
+          "legendFormat": "{{ node }}",
+          "refId": "A"
+        }
+      ],
+      "title": "Flows Completed",
+      "type": "stat"
+    },
+    {
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 7,
+        "x": 17,
+        "y": 4
+      },
+      "id": 26,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "8.3.4",
+      "targets": [
+        {
+          "expr": "net_corda_Flows_Count{name=\"Started\"}",
+          "interval": "",
+          "legendFormat": "{{ node }}",
+          "refId": "A"
+        }
+      ],
+      "title": "Flows Started",
+      "type": "stat"
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "fieldConfig": {
+        "defaults": {
+          "links": []
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 6,
+        "w": 11,
+        "x": 6,
+        "y": 7
+      },
+      "hiddenSeries": false,
+      "id": 14,
+      "legend": {
+        "avg": true,
+        "current": false,
+        "max": true,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "8.3.4",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "java_lang_Memory_HeapMemoryUsage_used",
+          "interval": "",
+          "legendFormat": "{{ node }}",
+          "refId": "A"
+        }
+      ],
+      "thresholds": [],
+      "timeRegions": [],
+      "title": "JVM Memory Usage (Heap)",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "bytes",
+          "logBase": 1,
+          "show": true
+        },
+        {
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
+    },
+    {
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "ms"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 7,
+        "x": 17,
+        "y": 7
+      },
+      "id": 24,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "8.3.4",
+      "targets": [
+        {
+          "expr": "net_corda_FlowDuration_FiveMinuteRate{node=\"notary\"}",
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Notary Flow Duration (5m)",
+      "type": "stat"
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "fieldConfig": {
+        "defaults": {
+          "links": []
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 9,
+        "w": 6,
+        "x": 0,
+        "y": 9
+      },
+      "hiddenSeries": false,
+      "id": 10,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "8.3.4",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "net_corda_FlowDuration_Count{group=\"corda\"}",
+          "interval": "",
+          "legendFormat": "{{ node }} - {{ name }}",
+          "refId": "A"
+        }
+      ],
+      "thresholds": [],
+      "timeRegions": [],
+      "title": "Flow Count by Type",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        },
+        {
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
+    },
+    {
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "displayName": "",
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 1
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 7,
+        "x": 17,
+        "y": 10
+      },
+      "id": 6,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "center",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "8.3.4",
+      "targets": [
+        {
+          "expr": "net_corda_Flows_Value{name=\"InFlight\"}",
+          "instant": false,
+          "interval": "",
+          "legendFormat": "{{ node }}",
+          "refId": "A"
+        }
+      ],
+      "title": "Flows In Flight",
+      "type": "stat"
+    },
+    {
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "Bps"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 11,
+        "x": 6,
+        "y": 13
+      },
+      "id": 22,
+      "interval": "",
+      "options": {
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true
+      },
+      "pluginVersion": "8.3.4",
+      "targets": [
+        {
+          "expr": "rate(net_corda_Flows_Count{name=\"CheckpointVolumeBytesPerSecondHist\"}[5m])",
+          "interval": "",
+          "legendFormat": "{{ node }}",
+          "refId": "A"
+        }
+      ],
+      "title": "Checkpoint Rate (5m)",
+      "type": "gauge"
+    }
+  ],
+  "refresh": "5s",
+  "schemaVersion": 34,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-15m",
+    "to": "now"
+  },
+  "timepicker": {
+    "refresh_intervals": [
+      "5s",
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
+    ]
+  },
+  "timezone": "",
+  "title": "Corda Network Overview",
+  "uid": "1cK8CTiGk",
+  "version": 1,
+  "weekStart": ""
+}

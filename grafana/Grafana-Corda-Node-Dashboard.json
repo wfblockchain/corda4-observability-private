@@ -1,0 +1,2248 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 7,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "description": "It indicates Hight CPU Utilization if the CPU utilization crosses 90%  over an average of 5 minute period.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "options": {
+                "from": 0,
+                "result": {
+                  "text": "OK"
+                },
+                "to": 0.89
+              },
+              "type": "range"
+            },
+            {
+              "options": {
+                "from": 0.9,
+                "result": {
+                  "text": "High"
+                },
+                "to": 1
+              },
+              "type": "range"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#56A64B",
+                "value": null
+              },
+              {
+                "color": "#E02F44",
+                "value": 0.9
+              },
+              {
+                "color": "#E02F44"
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 0,
+        "y": 0
+      },
+      "id": 42,
+      "links": [],
+      "maxDataPoints": 100,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "8.3.4",
+      "targets": [
+        {
+          "expr": "avg_over_time(java_lang_OperatingSystem_SystemCpuLoad{group=\"corda\"}[5m])",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "{{ node }}",
+          "refId": "A"
+        }
+      ],
+      "title": "CPU Load",
+      "type": "stat"
+    },
+    {
+      "description": "It indicates Low Memory if the Java Heap Space utilization crosses 90%  over an average of 5 minute period.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "options": {
+                "from": 0,
+                "result": {
+                  "text": "OK"
+                },
+                "to": 0.89
+              },
+              "type": "range"
+            },
+            {
+              "options": {
+                "from": 0.9,
+                "result": {
+                  "text": "Low"
+                },
+                "to": 1
+              },
+              "type": "range"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#56A64B",
+                "value": null
+              },
+              {
+                "color": "#E02F44",
+                "value": 0.9
+              },
+              {
+                "color": "#E02F44"
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 4,
+        "y": 0
+      },
+      "id": 54,
+      "links": [],
+      "maxDataPoints": 100,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "8.3.4",
+      "targets": [
+        {
+          "expr": "avg_over_time(java_lang_Memory_HeapMemoryUsage_used{group=\"corda\"}[5m]) / java_lang_Memory_HeapMemoryUsage_max{group=\"corda\"}",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "{{ node }}",
+          "refId": "A"
+        }
+      ],
+      "title": "Java Heap Memory",
+      "type": "stat"
+    },
+    {
+      "description": "The last minute's error flow rate reaching a significant percentage (10%) of the last minute's started flow rate indicates high flow error rates.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "options": {
+                "from": 0,
+                "result": {
+                  "text": "OK"
+                },
+                "to": 0.1
+              },
+              "type": "range"
+            },
+            {
+              "options": {
+                "from": 0.1,
+                "result": {
+                  "text": "High"
+                },
+                "to": 1
+              },
+              "type": "range"
+            },
+            {
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "No Data"
+                }
+              },
+              "type": "special"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#56A64B",
+                "value": null
+              },
+              {
+                "color": "#E02F44",
+                "value": 0.1
+              },
+              {
+                "color": "#E02F44"
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 8,
+        "y": 0
+      },
+      "id": 56,
+      "interval": "",
+      "links": [],
+      "maxDataPoints": 100,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "8.3.4",
+      "targets": [
+        {
+          "expr": "(net_corda_Flows_OneMinuteRate{name=\"ErrorPerMinute\"} / ignoring(name) net_corda_Flows_OneMinuteRate{name=\"StartedPerMinute\"}) >= 0",
+          "format": "time_series",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Flow Error Rate",
+      "type": "stat"
+    },
+    {
+      "description": "Assuming we have received enough messages in the last minute (at least 3 per second) to make a decision,- we can flag up an error if 25% of the messages took significantly (at least 50%) longer than the average message process duration. ",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "No Data"
+                }
+              },
+              "type": "special"
+            },
+            {
+              "options": {
+                "from": 0,
+                "result": {
+                  "text": "OK"
+                },
+                "to": 1
+              },
+              "type": "range"
+            },
+            {
+              "options": {
+                "from": 1,
+                "result": {
+                  "text": "High"
+                },
+                "to": 100000000000
+              },
+              "type": "range"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#56A64B",
+                "value": null
+              },
+              {
+                "color": "#E02F44",
+                "value": 1
+              },
+              {
+                "color": "#E02F44"
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 12,
+        "y": 0
+      },
+      "id": 58,
+      "links": [],
+      "maxDataPoints": 100,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "8.3.4",
+      "targets": [
+        {
+          "expr": "(net_corda_P2P_75thPercentile{name=\"ReceiveDuration\"} / (net_corda_P2P_Mean{name=\"ReceiveDuration\"}  * 1.5) ) * (net_corda_P2P_OneMinuteRate{name=\"ReceiveDuration\"} > bool 3) ",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Message Processing Latency",
+      "type": "stat"
+    },
+    {
+      "description": "This indicates when a network parameter update has been proposed that has not been accepted yet.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "options": {
+                "0": {
+                  "text": "No"
+                },
+                "1": {
+                  "text": "Proposed"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#56A64B",
+                "value": null
+              },
+              {
+                "color": "#E02F44",
+                "value": 1
+              },
+              {
+                "color": "#E02F44"
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 16,
+        "y": 0
+      },
+      "id": 50,
+      "links": [],
+      "maxDataPoints": 100,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "8.3.4",
+      "targets": [
+        {
+          "expr": "net_corda_NetworkParameter_Value{name=\"UpdateProposed\"}",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Network Paramater Update",
+      "type": "stat"
+    },
+    {
+      "description": "It indicates if the node is not reachable.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "options": {
+                "0": {
+                  "text": "Down"
+                },
+                "1": {
+                  "text": "OK"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#E02F44",
+                "value": null
+              },
+              {
+                "color": "#56A64B",
+                "value": 1
+              },
+              {
+                "color": "#56A64B"
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 20,
+        "y": 0
+      },
+      "id": 48,
+      "links": [],
+      "maxDataPoints": 100,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "8.3.4",
+      "targets": [
+        {
+          "expr": "up{group=\"corda\"}",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "{{ node }}",
+          "refId": "A"
+        }
+      ],
+      "title": "Node Status",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "c9u6v1a7k"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 0,
+        "y": 5
+      },
+      "id": 32,
+      "links": [],
+      "maxDataPoints": 100,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "8.3.4",
+      "targets": [
+        {
+          "expr": "net_corda_Metering_Count{name=\"droppedCounts\"}",
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Dropped Signing Events",
+      "type": "stat"
+    },
+    {
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 4,
+        "y": 5
+      },
+      "id": 22,
+      "links": [],
+      "maxDataPoints": 100,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "8.3.4",
+      "targets": [
+        {
+          "expr": "net_corda_Metering_Count{name=\"totalCounts\"}",
+          "interval": "",
+          "legendFormat": "Total Signing Events",
+          "refId": "C"
+        }
+      ],
+      "title": "Total Signing Events",
+      "type": "stat"
+    },
+    {
+      "description": "Total number of attachments in the node",
+      "fieldConfig": {
+        "defaults": {
+          "displayName": "",
+          "mappings": [],
+          "max": 50,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 50
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 8,
+        "y": 5
+      },
+      "id": 2,
+      "options": {
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": false
+      },
+      "pluginVersion": "8.3.4",
+      "targets": [
+        {
+          "expr": "net_corda_Attachments_Count",
+          "interval": "",
+          "legendFormat": "{{ node }}",
+          "refId": "A"
+        }
+      ],
+      "title": "Attachment Count",
+      "type": "gauge"
+    },
+    {
+      "description": "Total number of successful and errored flows",
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 12,
+        "y": 5
+      },
+      "id": 10,
+      "options": {
+        "displayMode": "gradient",
+        "orientation": "vertical",
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showUnfilled": false
+      },
+      "pluginVersion": "8.3.4",
+      "targets": [
+        {
+          "expr": "net_corda_Flows_Count{name=\"Success\"}",
+          "format": "time_series",
+          "instant": false,
+          "interval": "",
+          "legendFormat": "Successful Flows",
+          "refId": "C"
+        },
+        {
+          "expr": "net_corda_Flows_Count{name=\"Error\"}",
+          "instant": false,
+          "interval": "",
+          "legendFormat": "Errored Flows",
+          "refId": "B"
+        }
+      ],
+      "type": "bargauge"
+    },
+    {
+      "description": "The size of the in-memory send queue in the state machine for messages waiting to be sent to Artemis",
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            {
+              "id": 0,
+              "op": "=",
+              "text": "No Data",
+              "type": 1,
+              "value": "null"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 16,
+        "y": 5
+      },
+      "id": 38,
+      "links": [],
+      "options": {
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": false
+      },
+      "pluginVersion": "8.3.4",
+      "targets": [
+        {
+          "expr": "net_corda_P2P_Value{name=\"SendQueueSize\"}",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "Send Queue Size",
+          "refId": "A"
+        }
+      ],
+      "title": "Send Queue Size",
+      "type": "gauge"
+    },
+    {
+      "description": "The number of flows waiting to be executed.",
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 20,
+        "y": 5
+      },
+      "id": 62,
+      "options": {
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": false
+      },
+      "pluginVersion": "8.3.4",
+      "targets": [
+        {
+          "expr": "net_corda_Flows_Value{name=\"QueueSize\"}",
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Flow Waiting Queue Size",
+      "type": "gauge"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 10
+      },
+      "id": 66,
+      "panels": [],
+      "title": "Cache",
+      "type": "row"
+    },
+    {
+      "description": "Weight Based Transactions  Cache",
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 8,
+        "x": 0,
+        "y": 11
+      },
+      "id": 68,
+      "options": {
+        "displayMode": "lcd",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showUnfilled": true
+      },
+      "pluginVersion": "8.3.4",
+      "targets": [
+        {
+          "expr": "net_corda_Caches_Count{component=\"DBTransactionStorage_transactions\", name=\"hits\"}",
+          "interval": "",
+          "legendFormat": "Hits",
+          "refId": "B"
+        },
+        {
+          "expr": "net_corda_Caches_Count{component=\"DBTransactionStorage_transactions\", name=\"misses\"}",
+          "interval": "",
+          "legendFormat": "Mises",
+          "refId": "A"
+        },
+        {
+          "expr": "net_corda_Caches_Count{component=\"DBTransactionStorage_transactions\", name=\"evictions\"}",
+          "interval": "",
+          "legendFormat": "Evictions",
+          "refId": "C"
+        },
+        {
+          "expr": "net_corda_Caches_Count{component=\"DBTransactionStorage_transactions\", name=\"loads\"}",
+          "interval": "",
+          "legendFormat": "Loads",
+          "refId": "D"
+        }
+      ],
+      "title": "DBTransactionStorage",
+      "type": "bargauge"
+    },
+    {
+
+      "description": "The current size of the cache expressed as a percentage of the maximum",
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [],
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 4,
+        "x": 8,
+        "y": 11
+      },
+      "id": 72,
+      "options": {
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true
+      },
+      "pluginVersion": "8.3.4",
+      "targets": [
+        {
+          "expr": "net_corda_Caches_Value{component=\"DBTransactionStorage_transactions\", name=\"weightPercent\"}",
+          "instant": false,
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "DBTransactionStorage Cache Load",
+      "type": "gauge"
+    },
+    {
+      "description": "Size Based Cache for Hibernate Session Factories",
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 8,
+        "x": 12,
+        "y": 11
+      },
+      "id": 70,
+      "options": {
+        "displayMode": "lcd",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showUnfilled": true
+      },
+      "pluginVersion": "8.3.4",
+      "targets": [
+        {
+          "expr": "net_corda_Caches_Count{component=\"HibernateConfiguration_sessionFactories\", name=\"hits\"}",
+          "interval": "",
+          "legendFormat": "Hits",
+          "refId": "A"
+        },
+        {
+          "expr": "net_corda_Caches_Count{component=\"HibernateConfiguration_sessionFactories\", name=\"misses\"}",
+          "interval": "",
+          "legendFormat": "Misses",
+          "refId": "B"
+        },
+        {
+          "expr": "net_corda_Caches_Count{component=\"HibernateConfiguration_sessionFactories\", name=\"evictions\"}",
+          "interval": "",
+          "legendFormat": "Evictions",
+          "refId": "C"
+        },
+        {
+          "expr": "net_corda_Caches_Count{component=\"HibernateConfiguration_sessionFactories\", name=\"loads\"}",
+          "interval": "",
+          "legendFormat": "Loads",
+          "refId": "D"
+        }
+      ],
+      "title": "Hibernate SessionFactory Cache",
+      "type": "bargauge"
+    },
+    {
+      "description": "The current size of the cache expressed as a percentage of the maximum",
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [],
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 4,
+        "x": 20,
+        "y": 11
+      },
+      "id": 74,
+      "options": {
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true
+      },
+      "pluginVersion": "8.3.4",
+      "targets": [
+        {
+          "expr": "net_corda_Caches_Value{component=\"HibernateConfiguration_sessionFactories\", name=\"sizePercent\"}",
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Hibernate SessionFactory Cache Load",
+      "type": "gauge"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 17
+      },
+      "id": 16,
+      "panels": [],
+      "title": "Server Stats",
+      "type": "row"
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "links": []
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 10,
+        "w": 20,
+        "x": 0,
+        "y": 18
+      },
+      "hiddenSeries": false,
+      "id": 12,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "8.3.4",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "java_lang_OperatingSystem_SystemCpuLoad{group=\"corda\"} * 100",
+          "interval": "",
+          "legendFormat": "{{ node }}-CPU",
+          "refId": "A"
+        },
+        {
+          "expr": "avg_over_time(java_lang_Memory_HeapMemoryUsage_used{group=\"corda\"} [5m]) / java_lang_Memory_HeapMemoryUsage_max{group=\"corda\"} * 100",
+          "interval": "",
+          "legendFormat": "{{ node }}-JPA Heap Memory",
+          "refId": "B"
+        }
+      ],
+      "thresholds": [],
+      "timeRegions": [],
+      "title": "System Resource Utilization",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "percent",
+          "logBase": 1,
+          "max": "100",
+          "min": "0",
+          "show": true
+        },
+        {
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
+    },
+    {
+      "fieldConfig": {
+        "defaults": {
+          "decimals": 2,
+          "mappings": [],
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "#EAB839",
+                "value": 60
+              },
+              {
+                "color": "red",
+                "value": 90
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 20,
+        "y": 18
+      },
+      "id": 6,
+      "options": {
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true
+      },
+      "pluginVersion": "8.3.4",
+      "targets": [
+        {
+          "expr": "java_lang_OperatingSystem_SystemCpuLoad{group=\"corda\"} * 100",
+          "interval": "",
+          "legendFormat": "{{ node }}",
+          "refId": "A"
+        }
+      ],
+      "title": "CPU Usage",
+      "type": "gauge"
+    },
+    {
+      "fieldConfig": {
+        "defaults": {
+          "decimals": 2,
+          "mappings": [],
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "#EAB839",
+                "value": 60
+              },
+              {
+                "color": "red",
+                "value": 90
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 20,
+        "y": 23
+      },
+      "id": 8,
+      "options": {
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true
+      },
+      "pluginVersion": "8.3.4",
+      "targets": [
+        {
+          "expr": "java_lang_Memory_HeapMemoryUsage_used{group=\"corda\"} / java_lang_Memory_HeapMemoryUsage_max{group=\"corda\"} * 100",
+          "interval": "",
+          "legendFormat": "{{ node }}",
+          "refId": "A"
+        }
+      ],
+      "title": "Java Heap Usage",
+      "type": "gauge"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 28
+      },
+      "id": 18,
+      "panels": [],
+      "title": "Flow Stats",
+      "type": "row"
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "c9u6v1a7k"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "links": []
+        },
+        "overrides": []
+      },
+      "fill": 0,
+      "fillGradient": 1,
+      "gridPos": {
+        "h": 10,
+        "w": 12,
+        "x": 0,
+        "y": 29
+      },
+      "hiddenSeries": false,
+      "id": 4,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "8.3.4",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "net_corda_Flows_Value{name=\"ActiveThreads\"}",
+          "interval": "",
+          "legendFormat": "Active Threads",
+          "refId": "C"
+        },
+        {
+          "expr": "net_corda_Flows_Value{name=\"InFlight\"}",
+          "interval": "",
+          "legendFormat": "InFlight Flows",
+          "refId": "B"
+        }
+      ],
+      "thresholds": [],
+      "timeRegions": [],
+      "title": "Active Flows",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "decimals": 0,
+          "format": "short",
+          "logBase": 1,
+          "min": "0",
+          "show": true
+        },
+        {
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "description": "The rate at which checkpointing events are happening.",
+      "fieldConfig": {
+        "defaults": {
+          "links": []
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 10,
+        "w": 12,
+        "x": 12,
+        "y": 29
+      },
+      "hiddenSeries": false,
+      "id": 26,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "8.3.4",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "rate(net_corda_Flows_Count{name=\"Checkpointing Rate\"}[1m])",
+          "interval": "",
+          "legendFormat": "1 min rate",
+          "refId": "A"
+        },
+        {
+          "expr": "rate(net_corda_Flows_Count{name=\"Checkpointing Rate\"}[5m])",
+          "interval": "",
+          "legendFormat": "5 min Rate",
+          "refId": "B"
+        },
+        {
+          "expr": "rate(net_corda_Flows_Count{name=\"Checkpointing Rate\"}[15m])",
+          "interval": "",
+          "legendFormat": "15 min Rate",
+          "refId": "C"
+        },
+        {
+          "expr": "rate(net_corda_Flows_Count{name=\"Checkpointing Rate\"}[30m])",
+          "interval": "",
+          "legendFormat": "30 min Rate",
+          "refId": "D"
+        }
+      ],
+      "thresholds": [],
+      "timeRegions": [],
+      "title": "Checkpointing Rate",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "per second",
+          "logBase": 1,
+          "show": true
+        },
+        {
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+
+      "description": "One minute moving average of started and errored flows. Flow  rate measured at a five-minute basis",
+      "fieldConfig": {
+        "defaults": {
+          "links": []
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 0,
+        "y": 39
+      },
+      "hiddenSeries": false,
+      "id": 52,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "8.3.4",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "net_corda_Flows_FiveMinuteRate{name=\"StartedPerMinute\"}",
+          "interval": "",
+          "legendFormat": "Started Flows",
+          "refId": "A"
+        },
+        {
+          "expr": "net_corda_Flows_FiveMinuteRate{name=\"ErrorPerMinute\"}",
+          "interval": "",
+          "legendFormat": "Errored Flows",
+          "refId": "B"
+        }
+      ],
+      "thresholds": [],
+      "timeRegions": [],
+      "title": "Flow Rates",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "per minute",
+          "logBase": 1,
+          "show": true
+        },
+        {
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "description": "Histogram showing the queue size at the point new flows are added",
+      "fieldConfig": {
+        "defaults": {
+          "links": []
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 12,
+        "y": 39
+      },
+      "hiddenSeries": false,
+      "id": 64,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "8.3.4",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+
+          "expr": "net_corda_Flows_Min{name=\"QueueSizeOnInsert\"}",
+          "interval": "",
+          "legendFormat": "Min",
+          "refId": "A"
+        },
+        {
+
+          "expr": "net_corda_Flows_Mean{name=\"QueueSizeOnInsert\"}",
+          "interval": "",
+          "legendFormat": "Mean",
+          "refId": "B"
+        },
+        {
+
+          "expr": "net_corda_Flows_50thPercentile{name=\"QueueSizeOnInsert\"}",
+          "interval": "",
+          "legendFormat": "Median",
+          "refId": "C"
+        },
+        {
+
+          "expr": "net_corda_Flows_75thPercentile{name=\"QueueSizeOnInsert\"}",
+          "interval": "",
+          "legendFormat": "75th Percentile",
+          "refId": "D"
+        },
+        {
+
+          "expr": "net_corda_Flows_95thPercentile{name=\"QueueSizeOnInsert\"}",
+          "interval": "",
+          "legendFormat": "95th Percentile",
+          "refId": "E"
+        },
+        {
+
+          "expr": "net_corda_Flows_Max{name=\"QueueSizeOnInsert\"}",
+          "interval": "",
+          "legendFormat": "Max",
+          "refId": "F"
+        }
+      ],
+      "thresholds": [],
+      "timeRegions": [],
+      "title": "Flow Waiting Queue Histogram",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        },
+        {
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
+    },
+    {
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 48
+      },
+      "id": 24,
+      "panels": [
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+
+          "description": "The latency between receiving a P2P message and delivering it to the state machine.",
+          "fill": 1,
+          "fillGradient": 0,
+          "gridPos": {
+            "h": 9,
+            "w": 12,
+            "x": 0,
+            "y": 49
+          },
+          "hiddenSeries": false,
+          "id": 34,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 1,
+          "nullPointMode": "null",
+          "options": {
+            "dataLinks": []
+          },
+          "percentage": false,
+          "pointradius": 2,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "net_corda_P2P_Min{name=\"ReceiveDuration\"}",
+              "interval": "",
+              "legendFormat": "Min",
+              "refId": "F"
+            },
+            {
+              "expr": "net_corda_P2P_Mean{name=\"ReceiveDuration\"}",
+              "hide": false,
+              "interval": "",
+              "legendFormat": "Mean",
+              "refId": "E"
+            },
+            {
+              "expr": "net_corda_P2P_50thPercentile{name=\"ReceiveDuration\"}",
+              "interval": "",
+              "legendFormat": "Median",
+              "refId": "H"
+            },
+            {
+              "expr": "net_corda_P2P_75thPercentile{name=\"ReceiveDuration\"}",
+              "hide": false,
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "75th Percentile",
+              "refId": "B"
+            },
+            {
+              "expr": "net_corda_P2P_95thPercentile{name=\"ReceiveDuration\"}",
+              "format": "time_series",
+              "hide": false,
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "95th Percentile",
+              "refId": "A"
+            },
+            {
+              "expr": "net_corda_P2P_99thPercentile{name=\"ReceiveDuration\"}",
+              "interval": "",
+              "legendFormat": "99th Percentile",
+              "refId": "I"
+            }
+          ],
+          "thresholds": [],
+          "timeRegions": [],
+          "title": "Receive Latency Histogram",
+          "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "mode": "time",
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "ms",
+              "logBase": 1,
+              "show": true
+            },
+            {
+              "format": "short",
+              "logBase": 1,
+              "show": false
+            }
+          ],
+          "yaxis": {
+            "align": false
+          }
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+
+          "description": "The latency when sending P2P messages, between send and send acknowledge by Artemis",
+          "fill": 1,
+          "fillGradient": 0,
+          "gridPos": {
+            "h": 9,
+            "w": 12,
+            "x": 12,
+            "y": 49
+          },
+          "hiddenSeries": false,
+          "id": 44,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 1,
+          "nullPointMode": "null",
+          "options": {
+            "dataLinks": []
+          },
+          "percentage": false,
+          "pointradius": 2,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "net_corda_P2P_Min{name=\"SendLatency\"}",
+              "interval": "",
+              "legendFormat": "Min",
+              "refId": "A"
+            },
+            {
+              "expr": "net_corda_P2P_Mean{name=\"SendLatency\"}",
+              "interval": "",
+              "legendFormat": "Mean",
+              "refId": "D"
+            },
+            {
+              "expr": "net_corda_P2P_50thPercentile{name=\"SendLatency\"}",
+              "interval": "",
+              "legendFormat": "Median",
+              "refId": "E"
+            },
+            {
+              "expr": "net_corda_P2P_75thPercentile{name=\"SendLatency\"}",
+              "interval": "",
+              "legendFormat": "75th Percentile",
+              "refId": "B"
+            },
+            {
+              "expr": "net_corda_P2P_95thPercentile{name=\"SendLatency\"}",
+              "interval": "",
+              "legendFormat": "95th Percentile",
+              "refId": "C"
+            },
+            {
+              "expr": "net_corda_P2P_99thPercentile{name=\"SendLatency\"}",
+              "interval": "",
+              "legendFormat": "99th Percentile",
+              "refId": "F"
+            }
+          ],
+          "thresholds": [],
+          "timeRegions": [],
+          "title": "Send Latency Histogram",
+          "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "mode": "time",
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "ms",
+              "logBase": 1,
+              "show": true
+            },
+            {
+              "format": "short",
+              "logBase": 1,
+              "show": true
+            }
+          ],
+          "yaxis": {
+            "align": false
+          }
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+
+          "description": "A number of messages received per second.",
+          "fill": 1,
+          "fillGradient": 0,
+          "gridPos": {
+            "h": 9,
+            "w": 12,
+            "x": 0,
+            "y": 58
+          },
+          "hiddenSeries": false,
+          "id": 46,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 1,
+          "nullPointMode": "null",
+          "options": {
+            "dataLinks": []
+          },
+          "percentage": false,
+          "pointradius": 2,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "rate(net_corda_P2P_Count{name=\"ReceiveDuration\"}[1m])",
+              "interval": "",
+              "legendFormat": "1 min Rate",
+              "refId": "A"
+            },
+            {
+              "expr": "rate(net_corda_P2P_Count{name=\"ReceiveDuration\"}[5m])",
+              "interval": "",
+              "legendFormat": "5 min Rate",
+              "refId": "B"
+            },
+            {
+              "expr": "rate(net_corda_P2P_Count{name=\"ReceiveDuration\"}[15m])",
+              "interval": "",
+              "legendFormat": "15 min Rate",
+              "refId": "C"
+            },
+            {
+              "expr": "rate(net_corda_P2P_Count{name=\"ReceiveDuration\"}[30m])",
+              "interval": "",
+              "legendFormat": "30 min Rate",
+              "refId": "D"
+            }
+          ],
+          "thresholds": [],
+          "timeRegions": [],
+          "title": "Received Messages Rate",
+          "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "mode": "time",
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "per second",
+              "logBase": 1,
+              "show": true
+            },
+            {
+              "format": "short",
+              "logBase": 1,
+              "show": true
+            }
+          ],
+          "yaxis": {
+            "align": false
+          }
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "c9u6v1a7k"
+          },
+          "description": "A number of messages sent per second.",
+          "fill": 1,
+          "fillGradient": 0,
+          "gridPos": {
+            "h": 9,
+            "w": 12,
+            "x": 12,
+            "y": 58
+          },
+          "hiddenSeries": false,
+          "id": 60,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 1,
+          "nullPointMode": "null",
+          "options": {
+            "dataLinks": []
+          },
+          "percentage": false,
+          "pointradius": 2,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "rate(net_corda_P2P_Count{name=\"SendLatency\"}[1m])",
+              "interval": "",
+              "legendFormat": "1 min rate",
+              "refId": "A"
+            },
+            {
+              "expr": "rate(net_corda_P2P_Count{name=\"SendLatency\"}[5m])",
+              "interval": "",
+              "legendFormat": "5 min rate",
+              "refId": "B"
+            },
+            {
+              "expr": "rate(net_corda_P2P_Count{name=\"SendLatency\"}[15m])",
+              "interval": "",
+              "legendFormat": "15 min rate",
+              "refId": "C"
+            },
+            {
+              "expr": "rate(net_corda_P2P_Count{name=\"SendLatency\"}[30m])",
+              "interval": "",
+              "legendFormat": "30 min rate",
+              "refId": "D"
+            }
+          ],
+          "thresholds": [],
+          "timeRegions": [],
+          "title": "Send Message Rate",
+          "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "mode": "time",
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "per second",
+              "logBase": 1,
+              "show": true
+            },
+            {
+              "format": "short",
+              "logBase": 1,
+              "show": true
+            }
+          ],
+          "yaxis": {
+            "align": false
+          }
+        }
+      ],
+      "title": "P2P Stats",
+      "type": "row"
+    }
+  ],
+  "refresh": "5s",
+  "schemaVersion": 34,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-5m",
+    "to": "now"
+  },
+  "timepicker": {
+    "refresh_intervals": [
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
+    ]
+  },
+  "timezone": "",
+  "title": "Corda Node Monitoring",
+  "uid": "zjVSDGgGz",
+  "version": 2,
+  "weekStart": ""
+}
