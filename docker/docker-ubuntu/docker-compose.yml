@@ -1,0 +1,19 @@
+version: '3.7'
+services:
+  notary:
+    image: corda:4.8.6
+    container_name: notary
+    hostname: notary
+    ports:
+      - "10000:10200"
+      - "10001:10201"
+      - "10002:10202"
+    volumes:
+      - ./configFiles/node.conf:/etc/corda/node.conf:ro
+      - ./configFiles/certificates:/opt/corda/certificates:ro
+      - ./configFiles/persistence.mv.db:/opt/corda/persistence/persistence.mv.db:rw
+      - ./configFiles/persistence.trace.db:/opt/corda/persistence/persistence.trace.db:rw
+      - ./configFiles/logs:/opt/corda/logs:rw
+      - ./configFiles/additional-node-infos:/opt/corda/additional-node-infos:rw
+      - ./configFiles/drivers:/opt/corda/drivers:ro
+      - ./configFiles/network-parameters:/opt/corda/network-parameters:rw
