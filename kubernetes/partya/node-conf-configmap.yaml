@@ -42,8 +42,8 @@ data:
   persistenceTraceDb: ""
 kind: ConfigMap
 metadata:
-  creationTimestamp: "2022-03-01T03:10:14Z"
+  creationTimestamp: "2022-03-01T22:48:06Z"
   name: partya-conf
   namespace: default
-  resourceVersion: "22175"
-  uid: 2b60eda7-f9c3-443c-86fe-5d9fcdb1b049
+  resourceVersion: "1026"
+  uid: 160cd44b-a361-4d39-89d7-87762eb915bd

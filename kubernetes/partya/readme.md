@@ -110,3 +110,16 @@ This project contains scripts to setup local corda network based on local image 
    artemis                brokers  cordapps      drivers  network-parameters  persistence                                                                persistence.trace.db
    bash-4.2$ 
    ```
+8. create port-forward
+   ```
+   kubectl port-forward deployment/partya 2222:2222
+   ```
+9. in another shell connect to sshd
+    ```
+     ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no user@localhost -p 2222
+    ```
+10. Replace docker image
+    ```
+    minikube image rm docker.io/library/corda:4.8.6   
+    minikube image load docker.io/library/corda:4.8.6   
+    ```

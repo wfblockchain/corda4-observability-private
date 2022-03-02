@@ -1,0 +1,1 @@
+java -jar ./cordapps/corda-tools-shell-cli-4.8.6.jar --config-file=./shell_partya.conf -c ./cordapps --user=user --password=password

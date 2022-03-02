@@ -57,7 +57,8 @@ VOLUME ["/opt/corda/additional-node-infos"]
 VOLUME ["/etc/corda"]
 
 ##CORDA JAR
-COPY --chown=corda:corda corda.jar /opt/corda/bin/corda.jar
+# COPY --chown=corda:corda corda.jar /opt/corda/bin/corda.jar
+COPY --chown=corda:corda corda-4.8.6.jar /opt/corda/bin/corda.jar
 ##CONFIG MANIPULATOR JAR
 # COPY --chown=corda:corda config-exporter.jar /opt/corda/config-exporter.jar
 ##CONFIG GENERATOR SHELL SCRIPT
