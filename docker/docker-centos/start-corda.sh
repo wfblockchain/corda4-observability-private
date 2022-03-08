@@ -1,0 +1,1 @@
+ java -jar /opt/corda/bin/corda.jar --base-directory /opt/corda  --config-file /etc/corda/node.conf

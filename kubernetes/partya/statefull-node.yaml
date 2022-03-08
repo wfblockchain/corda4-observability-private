@@ -1,0 +1,138 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: partya
+  labels:
+    app: partya
+spec:
+  serviceName: partya-cluster
+  replicas: 1
+  selector:
+    matchLabels:
+      app: partya
+  template:
+    metadata:
+      labels:
+        app: partya
+
+    spec:
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 10    
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 3000
+        fsGroup: 2000
+        fsGroupChangePolicy: "OnRootMismatch" 
+      initContainers:
+        - name: change-ownership-container
+          image: corda:4.8.6  
+          command: ["/bin/sh", "-c"]
+          args:
+            - echo starting;
+              /bin/mkdir -p /opt/corda/cordapps/config;       
+              /bin/chown -R 1000:1000 /opt/corda;        
+              echo done;
+          imagePullPolicy: Never    # to pull from local image
+          securityContext:
+            runAsUser: 0
+            privileged: true
+          volumeMounts:  
+            - mountPath: /opt/corda
+              name: data
+      containers:
+      - image: corda:4.8.6
+        securityContext:
+          allowPrivilegeEscalation: false        
+          runAsGroup: 3000
+        name: corda
+        imagePullPolicy: Never    # to pull from local image
+        # To delete an image from minikube do the following
+        #  minikube image rm docker.io/library/corda:4.8.6   
+        #  minikube image load docker.io/library/corda:4.8.6   
+        ports:
+          - containerPort: 10003 # P2P PORT
+          - containerPort: 10004 # RPC PORT
+          - containerPort: 2222 # ssh
+        resources:
+          requests:
+            memory: "1Gi"
+            cpu: "500m"
+          limits:
+            memory: "2Gi"
+            cpu: "1000m"
+        volumeMounts:
+        - mountPath: /opt/corda/additional-node-infos/nodeInfo-7B8AF0AFE12D3B3993C45192A142CF0C30CC712BD66A8EF34F152A377D07AFEB
+          name: vol1
+          subPath: addtional-node1
+        - mountPath: /opt/corda/additional-node-infos/nodeInfo-777DA369F066FE34BEDE3E6334A1006A4026A02DD76AFA798204BD015C9965DE
+          name: vol1
+          subPath: addtional-node2
+        # - mountPath: /opt/corda/additional-node-infos/nodeInfo-E4477B559304AADFC0638772C0956A38FA2E2A7A5EB0E65D0D83E5884831879A
+        #   name: vol1
+        #   subPath: addtional-node3
+        - mountPath: /etc/corda/node.conf
+          name: vol1
+          subPath: conf
+        - mountPath: /opt/corda/network-parameters
+          name: vol1
+          subPath: network-parameters
+        - mountPath: /opt/corda/certificates/nodekeystore.jks
+          name: vol1
+          subPath: nodekeystore
+        - mountPath: /opt/corda/certificates/sslkeystore.jks
+          name: vol1
+          subPath: sslkeystore
+        - mountPath: /opt/corda/certificates/truststore.jks
+          name: vol1
+          subPath: truststore
+        - mountPath: /opt/corda
+          name: data
+      volumes:
+      - name: data
+        persistentVolumeClaim:
+          claimName: partya-pvc
+      - configMap:
+          items:
+            - key: addtional-node1
+              path: addtional-node1
+            - key: addtional-node2
+              path: addtional-node2
+            - key: addtional-node3
+              path: addtional-node3
+            - key: conf
+              path: conf
+            - key: network-parameters
+              path: network-parameters
+            - key: persistenceMvDb
+              path: persistenceMvDb
+            - key: persistenceTraceDb
+              path: persistenceTraceDb
+            - key: node-info
+              path: node-info
+            - key: nodekeystore
+              path: nodekeystore
+            - key: sslkeystore
+              path: sslkeystore
+            - key: truststore
+              path: truststore
+          name: partya-conf
+        name: vol1
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: partya-cluster
+spec:
+  clusterIP: None
+  ports:
+  - port: 10003
+    targetPort: 10003
+    name: p2p
+  - port: 10004
+    targetPort: 10004
+    name: rpc
+  - port: 2222
+    targetPort: 2222
+    name: sshd
+  selector:
+    app: partya-cluster    

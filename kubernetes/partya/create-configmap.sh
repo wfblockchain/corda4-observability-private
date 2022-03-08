@@ -1,5 +1,5 @@
-kubectl delete configmap partya-conf
-kubectl create configmap partya-conf \
+kubectl delete -n corda configmap partya-conf
+kubectl create -n corda configmap partya-conf \
         --from-file=conf=./configFiles/partya-node.conf \
         --from-file=persistenceMvDb=./configFiles/persistence.mv.db \
         --from-file=persistenceTraceDb=./configFiles/persistence.trace.db \
@@ -11,4 +11,4 @@ kubectl create configmap partya-conf \
         --from-file=nodekeystore=./configFiles/certificates/nodekeystore.jks \
         --from-file=sslkeystore=./configFiles/certificates/sslkeystore.jks \
         --from-file=truststore=./configFiles/certificates/truststore.jks
-kubectl get configmaps partya-conf -o yaml > node-conf-configmap.yaml
+kubectl get configmaps -n corda partya-conf -o yaml > node-conf-configmap.yaml

@@ -1,0 +1,1 @@
+java -jar /opt/corda/bin/corda.jar run-migration-scripts --core-schemas --app-schemas -f /etc/corda/node.conf

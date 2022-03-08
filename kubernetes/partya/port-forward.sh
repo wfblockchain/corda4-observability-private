@@ -1,2 +1,4 @@
 # https://kubernetes.io/docs/tasks/access-application-cluster/port-forward-access-application-cluster/
-kubectl port-forward deployment/partya 2222:2222
+
+# in another shell connect to sshd. Look at the script run-ssh.sh
+kubectl -n corda port-forward statefulset.apps/partya  2222:2222
