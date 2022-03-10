@@ -1,6 +1,6 @@
-kubectl delete -n corda configmap notary-conf
-kubectl create -n corda configmap notary-conf \
-        --from-file=conf=./configFiles/notary-node.conf \
+kubectl delete -n corda configmap partyb-conf
+kubectl create -n corda configmap partyb-conf \
+        --from-file=conf=./configFiles/partyb-node.conf \
         --from-file=persistenceMvDb=./configFiles/persistence.mv.db \
         --from-file=persistenceTraceDb=./configFiles/persistence.trace.db \
         --from-file=network-parameters=./configFiles/network-parameters \
@@ -11,4 +11,4 @@ kubectl create -n corda configmap notary-conf \
         --from-file=nodekeystore=./configFiles/certificates/nodekeystore.jks \
         --from-file=sslkeystore=./configFiles/certificates/sslkeystore.jks \
         --from-file=truststore=./configFiles/certificates/truststore.jks
-kubectl get configmaps -n corda notary-conf -o yaml > node-conf-configmap.yaml
+kubectl get configmaps -n corda partyb-conf -o yaml > node-conf-configmap.yaml

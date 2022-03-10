@@ -5,7 +5,7 @@ kubectl -n corda delete -f statefull-node.yaml
 kubectl delete -f  node-volume.yaml
 
 # Dekete configmap
-kubectl delete -n corda configmap partya-conf
+kubectl delete -n corda configmap partyb-conf
 
 # Delete namspace
 # kubectl delete ns corda

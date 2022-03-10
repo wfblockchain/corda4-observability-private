@@ -22,10 +22,14 @@ spec:
           runAsGroup: 1000
         name: corda
         imagePullPolicy: Never    # to pull from local image
+        # To delete an image from minikube do the following
+        #  minikube image rm docker.io/library/corda:4.8.6   
+        #  minikube image load docker.io/library/corda:4.8.6   
         ports:
-          - containerPort: 10000 # P2P PORT
-          - containerPort: 10001 # RPC PORT
-          - containerPort: 10002 # ssh
+          - containerPort: 10003 # P2P PORT
+          - containerPort: 10004 # RPC PORT
+          # - containerPort: 10005 # ssh
+          - containerPort: 2222 # ssh
     # MY_P2P_PORT=10200 \
     # MY_RPC_PORT=10201 \
     # MY_RPC_ADMIN_PORT=10202 \          
@@ -40,9 +44,12 @@ spec:
         - mountPath: /opt/corda/additional-node-infos/nodeInfo-7B8AF0AFE12D3B3993C45192A142CF0C30CC712BD66A8EF34F152A377D07AFEB
           name: vol1
           subPath: addtional-node1
-        - mountPath: /opt/corda/additional-node-infos/nodeInfo-E4477B559304AADFC0638772C0956A38FA2E2A7A5EB0E65D0D83E5884831879A
+        - mountPath: /opt/corda/additional-node-infos/nodeInfo-777DA369F066FE34BEDE3E6334A1006A4026A02DD76AFA798204BD015C9965DE
           name: vol1
-          subPath: addtional-node3
+          subPath: addtional-node2
+        # - mountPath: /opt/corda/additional-node-infos/nodeInfo-E4477B559304AADFC0638772C0956A38FA2E2A7A5EB0E65D0D83E5884831879A
+        #   name: vol1
+        #   subPath: addtional-node3
         - mountPath: /etc/corda/node.conf
           name: vol1
           subPath: conf
@@ -86,6 +93,6 @@ spec:
               path: sslkeystore
             - key: truststore
               path: truststore
-          name: notaryconf
+          name: notary-conf
         name: vol1
     
