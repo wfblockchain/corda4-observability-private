@@ -1,0 +1,42 @@
+
+  metrics_filters:
+    include: ["org_apache_artemismq*","netcorda_Flows_99thPercentile*","net_corda_Flows_Count*","net_corda_Flows_Value*","java_lang_Meory_HeapMemoryUsage_init*","net_corda_FlowDuration_99thPercentile*","jvm_threads_deadlocked*","java_lang_Runtime_Uptime*","net_corda_Flows_Count*"]
+
+
+
+
+global:
+  scrape_interval: 10s
+  external_labels:
+    monitor: "corda-network"
+scrape_configs:
+  # - job_name: "corda"
+  #   static_configs:
+  #     - targets: ["notary:8080"]
+  #       labels:
+  #         role: "group"
+  #         role: "notary"
+  #     - targets: ["partya:8080", "partyb:8080"]
+  #       labels:
+  #         role: "group"
+  #         role: "participant"
+  #   relabel_configs:
+  #     - source_labels: [__address__]
+  #       regex: "([^:]+):\\d+"
+  #       target_label: node
+
+  - job_name: 'loki'
+    static_configs:
+    - targets: ['loki:3100']
+
+  - job_name: 'tempo'
+    static_configs:
+    - targets: ['tempo:3200']
+
+  - job_name: 'otelcollector'
+    static_configs:
+    - targets: ['otelcollector:9464']
+    # relabel_configs:
+    #   - source_labels: [__address__]
+    #     regex: "([^:]+):\\d+"
+    #     target_label: node
