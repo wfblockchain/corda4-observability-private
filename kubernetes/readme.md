@@ -1,5 +1,5 @@
-  # Kubernetes for Corda
-
+# Kubernetes for Corda
+This version uses local H2 Database
 ## Pre-Requisites
 1. Install [minikube]( https://kubernetes.io/docs/tasks/tools/)  
 
@@ -37,21 +37,21 @@ This project contains scripts to setup local corda network based on local image 
    ```
 
 # Testing
-1. From partya run the script **`.\partya\portforward.sh`**
+1. From partya run the script **`./partya/port-forward.sh`**
    ```
    Forwarding from 127.0.0.1:2222 -> 2222
    Forwarding from [::1]:2222 -> 2222
    ```
-2. in another terminal run the script **`'\partya\run-ssh`**
+2. in another terminal run the script **`'./partya/run-ssh.sh`**
 3. Let's execute a `CashIssueAndPaymentFlow`:
 ```
 flow start CashIssueAndPaymentFlow amount: 1000 GBP, issueRef: TestTransaction, recipient: PartyB, anonymous: false, notary: Notary
 
- ✓ Starting
- ✓ Issuing cash
+✓ Starting
+      Issuing cash
           Generating anonymous identities
-     ✓ Generating transaction
-     ✓ Signing transaction
+          Generating transaction
+          Signing transaction
      ✓ Finalising transaction
               Requesting signature by notary service
                   Requesting signature by Notary service
@@ -63,10 +63,11 @@ flow start CashIssueAndPaymentFlow amount: 1000 GBP, issueRef: TestTransaction, 
      ✓ Signing transaction
      ✓ Finalising transaction
          ✓ Requesting signature by notary service
-            ▶︎ Requesting signature by Notary service
-                Validating response from Notary service
-            Broadcasting transaction to participants
-    Done
+             ✓ Requesting signature by Notary service
+             ✓ Validating response from Notary service
+         ✓ Broadcasting transaction to participants
+▶︎ Done
+Flow completed with result: Result(stx=SignedTransaction(id=2BF3C1FBB6E55E1791597E07DC15510450A0ADEC07A6DAE651F621B839619EDD), recipient=O=PartyB, L=London, C=GB)
 ```
 
 it produces the following

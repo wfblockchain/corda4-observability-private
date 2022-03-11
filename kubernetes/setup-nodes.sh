@@ -13,4 +13,5 @@ echo "\nsetup partyb"
 cd ../partyb/
 bash -c "./setup.sh"
 
-echo "\ndone"
+kubectl get -n corda pod   
+echo "\ndone" 
