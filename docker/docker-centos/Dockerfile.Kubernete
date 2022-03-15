@@ -74,6 +74,10 @@ COPY --chown=corda:corda migration.sh /opt/corda/bin/migration
 ##BASE CONFIG FOR GENERATOR
 # COPY --chown=corda:corda starting-node.conf /opt/corda/starting-node.conf
 
+##COPY POSTGRES Driver
+COPY --chown=corda:corda /drivers/jmx_prometheus_javaagent-0.16.1.jar /opt/corda/drivers/jmx_prometheus_javaagent-0.16.1.jar 
+COPY --chown=corda:corda /drivers/postgresql-42.3.1.jar  /opt/corda/drivers/postgresql-42.3.1.jar  
+COPY --chown=corda:corda /drivers/prom_jmx_exporter.yaml /opt/corda/drivers/prom_jmx_exporter.yaml 
 USER "corda"
 EXPOSE ${MY_P2P_PORT} ${MY_RPC_PORT} ${MY_RPC_ADMIN_PORT}
 WORKDIR /opt/corda

@@ -7,6 +7,9 @@ kubectl delete -f  node-volume.yaml
 # Dekete configmap
 kubectl delete -n corda configmap notary-conf
 
+# Delete Postgress
+kubectl -n corda delete -f deployment-postgres.yaml
+
 # Delete namspace
 # kubectl delete ns corda
 

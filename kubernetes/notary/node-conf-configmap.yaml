@@ -11,13 +11,16 @@ binaryData:
 data:
   conf: "devMode=true\nemailAddress=\"test@test.com\"\nmyLegalName=\"O=Notary, L=London,
     C=GB\"\np2pAddress=\"notary:10200\"\nnotary { \n  validating : false \n}\nrpcSettings
-    {\n    address=\"0.0.0.0:10201\"\n    adminAddress=\"0.0.0.0:10202\"\n}"
+    {\n    address=\"0.0.0.0:10201\"\n    adminAddress=\"0.0.0.0:10202\"\n}\ndataSourceProperties
+    = {\n   dataSourceClassName = \"org.postgresql.ds.PGSimpleDataSource\"\n   dataSource.url
+    = \"jdbc:postgresql://notarydb:5432/postgres\"\n   dataSource.user = postgres\n
+    \  dataSource.password = \"test\"\n}\n"
   persistenceMvDb: ""
   persistenceTraceDb: ""
 kind: ConfigMap
 metadata:
-  creationTimestamp: "2022-03-11T03:01:55Z"
+  creationTimestamp: "2022-03-15T00:01:36Z"
   name: notary-conf
   namespace: corda
-  resourceVersion: "77707"
-  uid: ed522294-1524-4906-a5e9-d6443d490761
+  resourceVersion: "117923"
+  uid: 214ad333-7cd7-4fdd-8590-be3776a607f7

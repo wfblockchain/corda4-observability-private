@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: partybdb
+spec:
+  selector:
+    matchLabels:
+      app: partybdb
+  template:
+    metadata:
+      labels:
+        app: partybdb
+    spec:
+      containers:
+      - name: partybdb
+        image: postgres:latest
+        ports:
+        - containerPort: 5432
+        env:
+        - name: POSTGRES_PASSWORD
+          value: test
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: partybdb
+spec:
+  selector:
+    app: partybdb
+  ports:
+  - port: 5432
+    targetPort: 5432
+

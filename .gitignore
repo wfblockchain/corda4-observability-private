@@ -6,3 +6,7 @@
 
 .DS_Store
 .vscode/
+
+kubernetes/notary/node-conf-configmap.yaml
+kubernetes/partya/node-conf-configmap.yaml
+kubernetes/partyb/node-conf-configmap.yaml

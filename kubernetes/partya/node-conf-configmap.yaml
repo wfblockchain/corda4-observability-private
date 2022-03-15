@@ -38,12 +38,18 @@ data:
     sshd {
       port = 2222
     }
+    dataSourceProperties = {
+        dataSourceClassName = "org.postgresql.ds.PGSimpleDataSource"
+        dataSource.url = "jdbc:postgresql://partyadb:5432/postgres"
+        dataSource.user = postgres
+        dataSource.password = "test"
+    }
   persistenceMvDb: ""
   persistenceTraceDb: ""
 kind: ConfigMap
 metadata:
-  creationTimestamp: "2022-03-11T03:02:16Z"
+  creationTimestamp: "2022-03-15T00:02:25Z"
   name: partya-conf
   namespace: corda
-  resourceVersion: "77758"
-  uid: 9482c666-68bc-4b68-ab4f-863f74c938de
+  resourceVersion: "118021"
+  uid: 4a68aa41-2dd0-4667-8b3e-269470174a25

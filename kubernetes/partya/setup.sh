@@ -7,6 +7,9 @@
 # Create volume
 kubectl create -f  node-volume.yaml
 
+# Create Postgress
+kubectl -n corda create -f deployment-postgres.yaml
+
 # Create state full node
 kubectl -n corda create -f statefull-node.yaml --save-config
 echo "copying cordapps...."

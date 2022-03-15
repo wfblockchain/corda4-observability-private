@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: notarydb
+spec:
+  selector:
+    matchLabels:
+      app: notarydb
+  template:
+    metadata:
+      labels:
+        app: notarydb
+    spec:
+      containers:
+      - name: notarydb
+        image: postgres:latest
+        ports:
+        - containerPort: 5432
+        env:
+        - name: POSTGRES_PASSWORD
+          value: test
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: notarydb
+spec:
+  selector:
+    app: notarydb
+  ports:
+  - port: 5432
+    targetPort: 5432
+
