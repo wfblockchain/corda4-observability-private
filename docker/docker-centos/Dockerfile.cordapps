@@ -1,0 +1,32 @@
+FROM azul/zulu-openjdk-centos:8u312
+
+## Add packages, clean cache, create dirs, create corda user and change ownership
+# RUN apt-get update && \
+#
+RUN yum install -y bash curl unzip && \
+    rm -rf /var/lib/apt/lists/* && \
+    mkdir -p /opt/corda/cordapps && \
+    groupadd corda && \
+    useradd corda -g corda -m -d /opt/corda && \
+    chown -R corda:corda /opt/corda 
+
+# ssh server
+# Don't forget to run '/usr/sbin/sshd -D' if you actually want to ssh into this container
+# RUN yum install -y openssh-server
+# RUN ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key -N ''
+# RUN ssh-keygen -t dsa -f /etc/ssh/ssh_host_dsa_key -N ''
+# ADD src/sshd/sshd_config /etc/ssh/sshd_config 
+# RUN echo root:welcome1 | chpasswd
+
+ENV CORDAPPS_FOLDER="/opt/corda/cordapps" 
+
+##CORDAPPS FOLDER
+VOLUME ["/opt/corda/cordapps"]
+
+##CORDA JAR
+
+COPY --chown=corda:corda /cordapps/corda-finance-contracts-4.8.6.jar /opt/corda/cordapps/corda-finance-contracts-4.8.6.jar 
+COPY --chown=corda:corda /cordapps/corda-finance-workflows-4.8.6.jar  /opt/corda/cordapps/corda-finance-workflows-4.8.6.jar 
+USER "corda"
+WORKDIR /opt/corda
+# CMD ["sh", "-c", "sleep 3600"]

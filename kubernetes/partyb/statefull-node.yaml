@@ -24,12 +24,18 @@ spec:
         fsGroup: 2000
         fsGroupChangePolicy: "OnRootMismatch" 
       initContainers:
+        # sidecar pattern - container only with cordapps      
+        - name: cordapps
+          image: cordapps:4.8.6
+          volumeMounts:  
+            - mountPath: /opt/corda/cordapps
+              name: data 
+          imagePullPolicy: Never    # to pull from local image         
         - name: change-ownership-container
           image: corda:4.8.6  
           command: ["/bin/sh", "-c"]
           args:
             - echo starting;
-              /bin/mkdir -p /opt/corda/cordapps/config;       
               /bin/chown -R 1000:1000 /opt/corda;        
               echo done;
           imagePullPolicy: Never    # to pull from local image
@@ -53,13 +59,6 @@ spec:
           - containerPort: 10003 # P2P PORT
           - containerPort: 10004 # RPC PORT
           - containerPort: 2222 # ssh
-        # resources:
-        #   requests:
-        #     memory: "1Gi"
-        #     cpu: "500m"
-        #   limits:
-        #     memory: "2Gi"
-        #     cpu: "1000m"
         volumeMounts:
         # - mountPath: /opt/corda/additional-node-infos/nodeInfo-7B8AF0AFE12D3B3993C45192A142CF0C30CC712BD66A8EF34F152A377D07AFEB
         #   name: vol1
@@ -102,8 +101,6 @@ spec:
               path: addtional-node2
             - key: addtional-node3
               path: addtional-node3
-            # - key: conf
-            #   path: conf
             - key: network-parameters
               path: network-parameters
             - key: persistenceMvDb
@@ -112,12 +109,6 @@ spec:
               path: persistenceTraceDb
             - key: node-info
               path: node-info
-            # - key: nodekeystore
-            #   path: nodekeystore
-            # - key: sslkeystore
-            #   path: sslkeystore
-            # - key: truststore
-            #   path: truststore
           name: partyb-conf
         name: vol1
 ---
