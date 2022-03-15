@@ -1,6 +1,9 @@
 # Create namspace
 # kubectl create ns corda
 
+# Create secrets
+./create-secrets.sh
+
 # Create configmap
 ./create-configmap.sh
 
@@ -11,8 +14,9 @@ kubectl create -f  node-volume.yaml
 kubectl -n corda create -f deployment-postgres.yaml
 
 # Create state full node
+# bash -c "sleep 5"
 kubectl -n corda create -f statefull-node.yaml --save-config
-bash -c "sleep 20"
+# bash -c "sleep 20"
 
 # list cordapps
 kubectl -n corda exec -it notary-0 bash -- ls cordapps/  -pla

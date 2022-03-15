@@ -1,6 +1,9 @@
 # Create namspace
 # kubectl create ns corda
 
+# Create secrets
+./create-secrets.sh
+
 # Create configmap
 ./create-configmap.sh
 

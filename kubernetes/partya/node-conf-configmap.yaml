@@ -48,8 +48,8 @@ data:
   persistenceTraceDb: ""
 kind: ConfigMap
 metadata:
-  creationTimestamp: "2022-03-15T00:02:25Z"
+  creationTimestamp: "2022-03-15T00:34:34Z"
   name: partya-conf
   namespace: corda
-  resourceVersion: "118021"
-  uid: 4a68aa41-2dd0-4667-8b3e-269470174a25
+  resourceVersion: "119898"
+  uid: bbd0fe97-1845-4577-a7d1-1db476f7434f

@@ -71,19 +71,19 @@ spec:
           name: vol1
           subPath: addtional-node3
         - mountPath: /etc/corda/node.conf
-          name: vol1
+          name: secret-vol
           subPath: conf
         - mountPath: /opt/corda/network-parameters
           name: vol1
           subPath: network-parameters
         - mountPath: /opt/corda/certificates/nodekeystore.jks
-          name: vol1
+          name: secret-vol
           subPath: nodekeystore
         - mountPath: /opt/corda/certificates/sslkeystore.jks
-          name: vol1
+          name: secret-vol
           subPath: sslkeystore
         - mountPath: /opt/corda/certificates/truststore.jks
-          name: vol1
+          name: secret-vol
           subPath: truststore
         - mountPath: /opt/corda
           name: data
@@ -91,6 +91,9 @@ spec:
       - name: data
         persistentVolumeClaim:
           claimName: partyb-pvc
+      - name: secret-vol
+        secret: 
+          secretName: partyb-secrets          
       - configMap:
           items:
             - key: addtional-node1
@@ -99,8 +102,8 @@ spec:
               path: addtional-node2
             - key: addtional-node3
               path: addtional-node3
-            - key: conf
-              path: conf
+            # - key: conf
+            #   path: conf
             - key: network-parameters
               path: network-parameters
             - key: persistenceMvDb
@@ -109,12 +112,12 @@ spec:
               path: persistenceTraceDb
             - key: node-info
               path: node-info
-            - key: nodekeystore
-              path: nodekeystore
-            - key: sslkeystore
-              path: sslkeystore
-            - key: truststore
-              path: truststore
+            # - key: nodekeystore
+            #   path: nodekeystore
+            # - key: sslkeystore
+            #   path: sslkeystore
+            # - key: truststore
+            #   path: truststore
           name: partyb-conf
         name: vol1
 ---

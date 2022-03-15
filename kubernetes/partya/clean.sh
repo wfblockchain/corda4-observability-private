@@ -8,7 +8,11 @@ kubectl delete -f  node-volume.yaml
 kubectl delete -n corda configmap partya-conf
 
 # Delete Postgress
-kubectl -n corda delete -f deployment-postgress.yaml
+kubectl -n corda delete -f deployment-postgres.yaml
+
+# Delete Screts
+kubectl -n corda delete secret secret-partyadb
+kubectl -n corda delete secret partya-secrets
 
 # Delete namspace
 # kubectl delete ns corda

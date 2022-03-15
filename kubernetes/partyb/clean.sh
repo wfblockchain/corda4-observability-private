@@ -10,6 +10,10 @@ kubectl delete -n corda configmap partyb-conf
 # Delete Postgress
 kubectl -n corda delete -f deployment-postgres.yaml
 
+# Delete Screts
+kubectl -n corda delete secret secret-partyadb
+kubectl -n corda delete secret partyb-secrets
+
 # Delete namspace
 # kubectl delete ns corda
 

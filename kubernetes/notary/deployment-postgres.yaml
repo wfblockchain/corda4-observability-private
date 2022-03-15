@@ -18,7 +18,11 @@ spec:
         - containerPort: 5432
         env:
         - name: POSTGRES_PASSWORD
-          value: test
+          valueFrom:
+            secretKeyRef:
+              name: secret-notarydb
+              key: db-password 
+          # value: test
 ---
 apiVersion: v1
 kind: Service

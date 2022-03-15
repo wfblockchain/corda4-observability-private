@@ -19,8 +19,8 @@ data:
   persistenceTraceDb: ""
 kind: ConfigMap
 metadata:
-  creationTimestamp: "2022-03-15T00:01:36Z"
+  creationTimestamp: "2022-03-15T01:00:47Z"
   name: notary-conf
   namespace: corda
-  resourceVersion: "117923"
-  uid: 214ad333-7cd7-4fdd-8590-be3776a607f7
+  resourceVersion: "121174"
+  uid: 9acc495a-5419-4cae-a214-6bd54e92d910
