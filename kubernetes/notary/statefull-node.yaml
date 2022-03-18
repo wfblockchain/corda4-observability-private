@@ -23,14 +23,7 @@ spec:
         runAsGroup: 3000
         fsGroup: 2000
         fsGroupChangePolicy: "OnRootMismatch" 
-      initContainers:
-        # sidecar pattern - container only with cordapps      
-        # - name: cordapps
-        #   image: cordapps:4.8.6
-        #   volumeMounts:  
-        #     - mountPath: /opt/corda/cordapps
-        #       name: data 
-        #   imagePullPolicy: Never    # to pull from local image              
+      initContainers:           
         - name: change-ownership-container
           image: corda:4.8.6  
           command: ["/bin/sh", "-c"]

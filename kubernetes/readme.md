@@ -1,7 +1,8 @@
 # Kubernetes for Corda
-This version uses local H2 Database
+This version uses local Postgres Database
 ## Pre-Requisites
 1. Install [minikube]( https://kubernetes.io/docs/tasks/tools/)  
+2. Install [Octant](https://github.com/vmware-tanzu/octant). On Mac use **`brew install octant`**
 
 This project contains scripts to setup local corda network based on local image of corda. Build first the image based on the instructions of docker-centos
 
