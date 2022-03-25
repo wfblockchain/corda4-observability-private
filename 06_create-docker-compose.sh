@@ -102,16 +102,31 @@ services:
     depends_on:
       - partybdb
 
+  alertmanager:
+    image: prom/alertmanager:v0.23.0
+    container_name: alertmanager
+    ports:
+      - "9093:9093"
+    volumes:
+      - "./alertmanager:/config"
+      - alertmanager-data:/data
+    command: --config.file=/config/alertmanager.yml --log.level=debug
+
   prometheus:
     image: prom/prometheus:v2.33.1
     container_name: prometheus
     hostname: prometheus
     ports:
       - 9090:9090
-    command:
-      - --config.file=/etc/prometheus/prometheus.yaml
+    command: --web.enable-lifecycle  --config.file=/etc/prometheus/prometheus.yaml
     volumes:
-      - ./prometheus/prometheus.yaml:/etc/prometheus/prometheus.yaml:ro
+      - ./prometheus:/etc/prometheus
+      - prometheus-data:/prometheus
+      #- ./prometheus/alert.yml:/etc/prometheus/alert.yml:rw
+      - ./prometheus/alert.yml:/etc/prometheus/alert.yml
+
+    depends_on:
+      - alertmanager
 
   grafana:
     image: grafana/grafana:8.3.5
@@ -148,6 +163,13 @@ services:
       - ./notary/logs:/var/log/notary:ro
       - ./promtail/promtail-config.yaml:/etc/promtail/config.yml
     command: -config.file=/etc/promtail/config.yml
+
+volumes:
+  alertmanager-data:
+
+  grafana-data:
+
+  prometheus-data:
 EOF
 
 printf "Created in: ./mynetwork/docker-compose.yml\n"

@@ -23,28 +23,142 @@ global:
   scrape_interval: 10s
   external_labels:
     monitor: "corda-network"
+
+# Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
+rule_files:
+  - alert.yml
+
+alerting:
+  alertmanagers:
+    - scheme: http
+      static_configs:
+        - targets: [ 'alertmanager:9093' ]
+
 scrape_configs:
-  - job_name: "corda"
+  - job_name: services
+    metrics_path: /metrics
     static_configs:
-      - targets: ["notary:8080"]
-        labels:
-          group: "corda"
-          role: "notary"
-      - targets: ["partya:8080", "partyb:8080"]
-        labels:
-          group: "corda"
-          role: "participant"
-    relabel_configs:
-      - source_labels: [__address__]
-        regex: "([^:]+):\\\d+"
-        target_label: node
+      - targets:
+          - 'prometheus:9090'
+
+  - job_name: corda
+    static_configs:
+       - targets: ["notary:8080"]
+   #      labels:
+   #        role: "group"
+   #        #role: "notary"
+       - targets: ["partya:8080", "partyb:8080"]
+   #      labels:
+   #        role: "group"
+           #role: "participant"
+  #   relabel_configs:
+  #     - source_labels: [__address__]
+  #       regex: "([^:]+):\\d+"
+  #       target_label: node
 
   - job_name: 'loki'
     static_configs:
     - targets: ['loki:3100']
+
+  - job_name: 'tempo'
+    static_configs:
+    - targets: ['tempo:3200']
+
+  - job_name: 'otelcollector'
+    static_configs:
+    - targets: ['otelcollector:9464']
+    # relabel_configs:
+    #   - source_labels: [__address__]
+    #     regex: "([^:]+):\\d+"
+    #     target_label: node
 EOF
 
 printf "Created in: ./mynetwork/prometheus/prometheus.yaml\n\n"
+
+# Create the Alert Rule Files
+printf "*********************************************************************************\n"
+printf "Create the Alert Rule File configuration\n"
+printf "*********************************************************************************\n"
+
+install -m 644 /dev/null ./mynetwork/prometheus/alert.yml
+cat <<EOF >./mynetwork/prometheus/alert.yml
+groups:
+  - name: AllInstances
+    rules:
+      - alert: service_down
+        expr: up == 0
+        for: 30s
+        labels:
+          severity: page
+        annotations:
+          summary: "Instance {{ $labels.instance }} down"
+          description: "{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 30 seconds."
+
+      - alert: high_load
+        expr: node_load1 > 0.8
+        for: 30s
+        labels:
+          severity: page
+        annotations:
+          summary: "Instance {{ $labels.instance }} under high load"
+          description: "{{ $labels.instance }} of job {{ $labels.job }} is under high load."
+
+      - alert: site_down
+        expr: probe_success < 1
+        for: 30s
+        labels:
+          severity: page
+        annotations:
+          summary: "Site Down: {{$labels.instance}}"
+          description: "Site Down: {{$labels.instance}} for more than 30 seconds"
+EOF
+
+printf "Created in: ./mynetwork/prometheus/alert.yml\n\n"
+
+# Create the Promtail configuration
+printf "*********************************************************************************\n"
+printf "Create the Alertmanager configuration\n"
+printf "*********************************************************************************\n"
+
+install -m 644 /dev/null ./mynetwork/alertmanager/alertmanager.yml
+cat <<EOF >./mynetwork/alertmanager/alertmanager.yml
+global:
+  resolve_timeout: 1m
+  slack_api_url: 'https://hooks.slack.com/services/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'
+
+route:
+  # Use this tool to format Slack Messages https://juliusv.com/promslack/
+  receiver: 'slack-notifications'
+receivers:
+  - name: 'slack-notifications'
+    slack_configs:
+      - channel: '#general'
+        send_resolved: true
+        icon_url: https://avatars3.githubusercontent.com/u/3380462
+        title: |-
+          [{{ .Status | toUpper }}{{ if eq .Status "firing" }}:{{ .Alerts.Firing | len }}{{ end }}] {{ .CommonLabels.alertname }} for {{ .CommonLabels.job }}
+          {{- if gt (len .CommonLabels) (len .GroupLabels) -}}
+            {{" "}}(
+            {{- with .CommonLabels.Remove .GroupLabels.Names }}
+              {{- range $index, $label := .SortedPairs -}}
+                {{ if $index }}, {{ end }}
+                {{- $label.Name }}="{{ $label.Value -}}"
+              {{- end }}
+            {{- end -}}
+            )
+          {{- end }}
+        text: >-
+          {{ range .Alerts -}}
+          *Alert:* {{ .Annotations.title }}{{ if .Labels.severity }} - `{{ .Labels.severity }}`{{ end }}
+
+          *Description:* {{ .Annotations.description }}
+
+          *Details:*
+            {{ range .Labels.SortedPairs }} • *{{ .Name }}:* `{{ .Value }}`
+            {{ end }}
+          {{ end }}
+EOF
+printf "Created in: ./mynetwork/alertmanager/alertmanager.yml\n\n"
 
 # Create the Promtail configuration
 printf "*********************************************************************************\n"

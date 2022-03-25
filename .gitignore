@@ -3,5 +3,6 @@
 /archive
 *.log
 *.conf
-
+/.idea
+.idea/*
 .DS_Store
