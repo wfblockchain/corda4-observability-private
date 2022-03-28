@@ -2,7 +2,7 @@
 /mynetwork
 /archive
 *.log
-*.conf
+#*.conf
 
 .DS_Store
 .vscode/
