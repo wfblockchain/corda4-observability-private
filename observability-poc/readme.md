@@ -135,12 +135,12 @@ Either the source is captured by the port forward or the source files
 ## Splunk Login
 for the login use admin/password for the url http://localhost:8000/
 
-![Splunk Login](/assets/Elastic-splunk/Splunk-Login.png)
+![Splunk Login](/assets/elastic-splunk/Splunk-Login.png)
 ## Splunk Settings
-![Splunk Settings](/assets/Elastic-splunk/splunk-Settings.png)
+![Splunk Settings](/assets/elastic-splunk/splunk-Settings.png)
 
 ## Splunk Data Inputs
-![Splunk Data Inputs](/assets/Elastic-splunk/splunk-Data%20Inputs.png)
+![Splunk Data Inputs](/assets/elastic-splunk/splunk-Data%20Inputs.png)
 
 ## Splunk HTTP Event Collector
 ![Splunk HTTP Event Collector](/assets/Elastic-splunk/splunk-GlobalSettings-HTTP%20Event%20Collector.png)
@@ -153,10 +153,10 @@ Elastic url is http://localhost:5601/
 ![Elastic Landing Page](../assets/elastic-splunk/Elastic-LandingPage.png)
 
 ## Elastic - Data View
-![Elastic Data View](/assets/Elastic-splunk/Elastic-Data-Views.png)
+![Elastic Data View](/assets/elastic-splunk/Elastic-Data-Views.png)
 
 ## Elastic - Create Data View
-![Elastic Create Data View](/assets/Elastic-splunk/Elastic-Create%20Data%20View.png)
+![Elastic Create Data View](/assets/elastic-splunk/Elastic-Create%20Data%20View.png)
 
 
 ## Elsatik - Stack Management Data View
