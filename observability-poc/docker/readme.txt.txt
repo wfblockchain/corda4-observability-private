@@ -5,3 +5,4 @@ Steps
 2. copy Dockerfile and fluent.conf files to fluentd
 3. Copy   docker-compose-fluent-prometheus-splunk.yml file to mynetwork
 4. run commamnd docker compose -f mynetwork/docker-compose-fluent-prometheus-splunk.yml up -d
+.
