@@ -46,14 +46,15 @@ services:
       - "JVM_ARGS=-XX:+HeapDumpOnOutOfMemoryError -Djava.util.logging.config.file=/opt/corda/drivers/jdk_logging.properties -Dlog4j.configurationFile=/opt/corda/drivers/log4j2.xml -cp /opt/corda/drivers/log4j-layout-template-json-2.17.1.jar -javaagent:/opt/corda/drivers/jmx_prometheus_javaagent-0.16.1.jar=8080:/opt/corda/drivers/prom_jmx_exporter.yaml"
       - NODE_NAME=notary
     links:
-      - fluentbitN
+      - fluentd
     logging:
       driver: fluentd
       options:
-        fluentd-address: 0.0.0.0:2024
+        fluentd-address: 0.0.0.0:24224
         tag: notarylog
     depends_on:
       - notarydb
+      - fluentd
     
 
   partya:
@@ -78,14 +79,15 @@ services:
       - "JVM_ARGS=-XX:+HeapDumpOnOutOfMemoryError -Djava.util.logging.config.file=/opt/corda/drivers/jdk_logging.properties -Dlog4j.configurationFile=/opt/corda/drivers/log4j2.xml -cp /opt/corda/drivers/log4j-layout-template-json-2.17.1.jar -javaagent:/opt/corda/drivers/jmx_prometheus_javaagent-0.16.1.jar=8080:/opt/corda/drivers/prom_jmx_exporter.yaml"
       - NODE_NAME=partya
     links:
-      - fluentbitA
+      - fluentd
     logging:
       driver: fluentd
       options:
-        fluentd-address: 0.0.0.0:2020
+        fluentd-address: 0.0.0.0:24224
         tag: partyAlog
     depends_on:
       - partyadb
+      - fluentd
 
   partyb:
     image: corda/corda-zulu-java1.8-4.8.6:RELEASE
@@ -109,14 +111,15 @@ services:
       - "JVM_ARGS=-XX:+HeapDumpOnOutOfMemoryError -Djava.util.logging.config.file=/opt/corda/drivers/jdk_logging.properties -Dlog4j.configurationFile=/opt/corda/drivers/log4j2.xml -cp /opt/corda/drivers/log4j-layout-template-json-2.17.1.jar -javaagent:/opt/corda/drivers/jmx_prometheus_javaagent-0.16.1.jar=8080:/opt/corda/drivers/prom_jmx_exporter.yaml"
       - NODE_NAME=partyb
     links:
-      - fluentbitB
+      - fluentd
     logging:
       driver: fluentd
       options:
-        fluentd-address: 0.0.0.0:2022
+        fluentd-address: 0.0.0.0:24224
         tag: partyBlog
     depends_on:
       - partybdb
+      - fluentd
 
   splunkenterprise:
     #build: .
@@ -145,48 +148,48 @@ services:
       - '24224:24224'
     volumes:
       - ./fluentd/fluent.conf:/fluentd/etc/fluent.conf
-      # - ./partya/logs:/var/log/partya:ro
-      # - ./partyb/logs:/var/log/partyb:ro
-      # - ./notary/logs:/var/log/notary:ro   
+      - ./partya/logs:/var/log/partya:ro
+      - ./partyb/logs:/var/log/partyb:ro
+      - ./notary/logs:/var/log/notary:ro   
     depends_on:
       - elasticsearch
       - splunkenterprise
 
-  fluentbitA:
-    image: fluent/fluent-bit:latest
-    hostname: fluentbit
-    container_name: fluentbitPartya
-    ports:
-      - '2020:2020'
-    volumes: 
-      - ./fluent-bit/fluent-bitA.conf:/fluent-bit/etc/fluent-bit.conf
-      - ./partya/logs:/var/log/partya:ro
-    depends_on:
-      - fluentd
+  # fluentbitA:
+  #   image: fluent/fluent-bit:latest
+  #   hostname: fluentbit
+  #   container_name: fluentbitPartya
+  #   ports:
+  #     - '2020:2020'
+  #   volumes: 
+  #     - ./fluent-bit/fluent-bitA.conf:/fluent-bit/etc/fluent-bit.conf
+  #     - ./partya/logs:/var/log/partya:ro
+  #   depends_on:
+  #     - fluentd
 
-  fluentbitB:
-    image: fluent/fluent-bit:latest
-    hostname: fluentbit
-    container_name: fluentbitPartyb
-    ports:
-      - '2022:2022'
-    volumes: 
-      - ./fluent-bit/fluent-bitB.conf:/fluent-bit/etc/fluent-bit.conf
-      - ./partyb/logs:/var/log/partyb:ro
-    depends_on:
-      - fluentd
+  # fluentbitB:
+  #   image: fluent/fluent-bit:latest
+  #   hostname: fluentbit
+  #   container_name: fluentbitPartyb
+  #   ports:
+  #     - '2022:2022'
+  #   volumes: 
+  #     - ./fluent-bit/fluent-bitB.conf:/fluent-bit/etc/fluent-bit.conf
+  #     - ./partyb/logs:/var/log/partyb:ro
+  #   depends_on:
+  #     - fluentd
   
-  fluentbitN:
-    image: fluent/fluent-bit:latest
-    hostname: fluentbit
-    container_name: fluentbitNotary
-    ports:
-      - '2024:2024'
-    volumes: 
-      - ./fluent-bit/fluent-bitN.conf:/fluent-bit/etc/fluent-bit.conf
-      - ./notary/logs:/var/log/notary:ro
-    depends_on:
-      - fluentd        
+  # fluentbitN:
+  #   image: fluent/fluent-bit:latest
+  #   hostname: fluentbit
+  #   container_name: fluentbitNotary
+  #   ports:
+  #     - '2024:2024'
+  #   volumes: 
+  #     - ./fluent-bit/fluent-bitN.conf:/fluent-bit/etc/fluent-bit.conf
+  #     - ./notary/logs:/var/log/notary:ro
+  #   depends_on:
+  #     - fluentd        
 
   #   #build: ./fluentd
   elasticsearch:
@@ -225,9 +228,9 @@ services:
     ports:
       - 9090:9090
     command:
-      - --config.file=/etc/prometheus/prometheus.yml
+      - --config.file=/etc/prometheus/prometheus.yaml
     volumes:
-      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./prometheus/prometheus.yaml:/etc/prometheus/prometheus.yaml:ro
 
   grafana:
     hostname: grafana
