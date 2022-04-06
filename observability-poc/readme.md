@@ -160,7 +160,7 @@ Elastic url is http://localhost:5601/
 
 
 ## Elsatik - Stack Management Data View
-![Elastic Stack Management Data Views](/assets/Elastic-splunk/Elastic-StackManagement%20-%20Data%20Views.png)
+![Elastic Stack Management Data Views](/assets/elastic-splunk/Elastic-StackManagement%20-%20Data%20Views.png)
 
 ## Step 10: Run some Corda Finance flows
 
