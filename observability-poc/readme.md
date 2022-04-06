@@ -143,8 +143,10 @@ for the login use admin/password for the url http://localhost:8000/
 ![Splunk Data Inputs](/assets/elastic-splunk/splunk-Data%20Inputs.png)
 
 ## Splunk HTTP Event Collector
-![Splunk HTTP Event Collector](/assets/Elastic-splunk/splunk-GlobalSettings-HTTP%20Event%20Collector.png)
+![Splunk HTTP Event Collector](/assets/elastic-splunk/splunk-GlobalSettings-HTTP%20Event%20Collector.png)
 
+## Disable SSL in HTTP Event Collector - Global Settings)
+![Global Settings](../assets/elastic-splunk/Splunk-Global-Settings.png)
 # Elastic
 
 Elastic url is http://localhost:5601/
