@@ -153,7 +153,7 @@ Elastic url is http://localhost:5601/
 ![Elastic Landing Page](../assets/elastic-splunk/Elastic-LandingPage.png)
 
 ## Elastic - Data View
-![Elastic Data View](/assets/Elastic-splunk/Elastic-Data%20Views.png)
+![Elastic Data View](/assets/Elastic-splunk/Elastic-Data-Views.png)
 
 ## Elastic - Create Data View
 ![Elastic Create Data View](/assets/Elastic-splunk/Elastic-Create%20Data%20View.png)
