@@ -1,14 +1,17 @@
-FROM azul/zulu-openjdk-centos:8u312
+# FROM azul/zulu-openjdk-centos:8u312
+FROM corda:4.8.6 
 
 ## Add packages, clean cache, create dirs, create corda user and change ownership
 # RUN apt-get update && \
 #
-RUN yum install -y bash curl unzip && \
-    rm -rf /var/lib/apt/lists/* && \
-    mkdir -p /opt/corda/cordapps && \
-    groupadd corda && \
-    useradd corda -g corda -m -d /opt/corda && \
-    chown -R corda:corda /opt/corda 
+# RUN yum install -y bash curl unzip && \
+#     rm -rf /var/lib/apt/lists/* && \
+#     mkdir -p /opt/corda/cordapps/config && \
+#     groupadd corda && \
+#     useradd corda -g corda -m -d /opt/corda && \
+#     chown -R corda:corda /opt/corda 
+
+RUN mkdir -p /opt/corda/cordapps/config 
 
 ENV CORDAPPS_FOLDER="/opt/corda/cordapps" 
 
@@ -20,4 +23,4 @@ COPY --chown=corda:corda /cordapps/corda-finance-contracts-4.8.6.jar /opt/corda/
 COPY --chown=corda:corda /cordapps/corda-finance-workflows-4.8.6.jar  /opt/corda/cordapps/corda-finance-workflows-4.8.6.jar 
 USER "corda"
 WORKDIR /opt/corda
-# CMD ["sh", "-c", "sleep 3600"]
+# CMD ["sh", "-c", "sleep 3600"] # inherits from the baseline

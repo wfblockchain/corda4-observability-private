@@ -14,9 +14,10 @@ kubectl create -f  node-volume.yaml
 kubectl -n corda create -f deployment-postgres.yaml
 
 # Create state full node
-kubectl -n corda create -f statefull-node.yaml --save-config
+# kubectl -n corda create -f statefull-node.yaml --save-config
+kubectl -n corda create -f deployment-node.yaml
 
 # list cordapps
 kubectl -n corda exec -it partyb-0 bash -- ls cordapps/  -pla
 #list all file
-kubectl -n corda get pod  && kubectl -n corda logs partyb-0
+kubectl -n corda get pod  && kubectl -n corda logs -l app=partyb

@@ -306,3 +306,34 @@ This project contains scripts to setup local corda network based on local image 
    partya-pvc   Bound    partya-pv   2Gi        RWO            hostpath       12m
    ```
 
+
+Let's execute a `CashIssueAndPaymentFlow`:
+```bash
+flow start CashIssueAndPaymentFlow amount: 1000 GBP, issueRef: TestTransaction, recipient: PartyB, anonymous: false, notary: Notary
+```
+
+```bash
+Mon Jun 15 07:53:52 GMT 2020>>> flow start CashIssueAndPaymentFlow amount: 1000 GBP, issueRef: TestTransaction, recipient: PartyB, anonymous: false, notary: Notary
+
+ ✓ Starting
+ ✓ Issuing cash
+          Generating anonymous identities
+     ✓ Generating transaction
+     ✓ Signing transaction
+     ✓ Finalising transaction
+              Requesting signature by notary service
+                  Requesting signature by Notary service
+                  Validating response from Notary service
+         ✓ Broadcasting transaction to participants
+ ✓ Paying recipient
+     ✓ Generating anonymous identities
+     ✓ Generating transaction
+     ✓ Signing transaction
+     ✓ Finalising transaction
+         ✓ Requesting signature by notary service
+             ✓ Requesting signature by Notary service
+             ✓ Validating response from Notary service
+         ✓ Broadcasting transaction to participants
+▶︎ Done
+Flow completed with result: Result(stx=SignedTransaction(id=FB08662B2E0A19ECF9B0E3E44D2DF25934F9576DBF262D794EE2C795C3269503), recipient=O=PartyB, L=London, C=GB)
+```

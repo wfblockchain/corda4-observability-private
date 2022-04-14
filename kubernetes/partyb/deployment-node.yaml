@@ -1,11 +1,10 @@
 apiVersion: apps/v1
-kind: StatefulSet
+kind: Deployment
 metadata:
   name: partyb
   labels:
     app: partyb
 spec:
-  serviceName: partyb
   replicas: 1
   selector:
     matchLabels:
