@@ -29,8 +29,9 @@ ENV  PERSISTENCE_FOLDER="/opt/corda/persistence" \
     MY_RPC_PORT=10201 \
     MY_RPC_ADMIN_PORT=10202 \
     PATH=$PATH:/opt/corda/bin \
-    JVM_ARGS="-XX:+UseG1GC -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap " \
-    CORDA_ARGS=""
+    JVM_ARGS="-XX:+HeapDumpOnOutOfMemoryError -Djava.util.logging.config.file=/opt/corda/drivers/jdk_logging.properties -Dlog4j.configurationFile=/opt/corda/drivers/log4j2.xml -cp /opt/corda/drivers/log4j-layout-template-json-2.17.1.jar -javaagent:/opt/corda/drivers/jmx_prometheus_javaagent-0.16.1.jar=8080:/opt/corda/drivers/prom_jmx_exporter.yaml" \
+    CORDA_ARGS=""\
+    NODE_NAME="${HOSTNAME}"
 
 ##PERSISTENCE FOLDER
 VOLUME ["/opt/corda/persistence"]
@@ -55,9 +56,21 @@ COPY --chown=corda:corda corda-4.8.6.jar /opt/corda/bin/corda.jar
 ##COPY  Driver
 COPY --chown=corda:corda /drivers/jmx_prometheus_javaagent-0.16.1.jar /opt/corda/drivers/jmx_prometheus_javaagent-0.16.1.jar 
 COPY --chown=corda:corda /drivers/postgresql-42.3.1.jar  /opt/corda/drivers/postgresql-42.3.1.jar  
-COPY --chown=corda:corda /drivers/prom_jmx_exporter.yaml /opt/corda/drivers/prom_jmx_exporter.yaml 
+COPY --chown=corda:corda /drivers/jdk_logging.properties /opt/corda/drivers/jdk_logging.properties
+COPY --chown=corda:corda /drivers/log4j-layout-template-json-2.17.1.jar /opt/corda/drivers/log4j-layout-template-json-2.17.1.jar
+COPY --chown=corda:corda /drivers/opentelemetry-api-1.10.1.jar /opt/corda/drivers/opentelemetry-api-1.10.1.jar
+COPY --chown=corda:corda /drivers/opentelemetry-context-1.10.1.jar /opt/corda/drivers/opentelemetry-context-1.10.1.jar
+COPY --chown=corda:corda /drivers/opentelemetry-javaagent.jar /opt/corda/drivers/opentelemetry-javaagent.jar
+COPY --chown=corda:corda /drivers/opentelemetry-log4j-2.13.2-1.9.2-alpha.jar /opt/corda/drivers/opentelemetry-log4j-2.13.2-1.9.2-alpha.jar 
+COPY --chown=corda:corda /drivers/opentelemetry-sdk-1.10.1.jar /opt/corda/drivers/opentelemetry-sdk-1.10.1.jar
+COPY --chown=corda:corda /drivers/opentelemetry-sdk-trace-1.10.1.jar /opt/corda/drivers/opentelemetry-sdk-trace-1.10.1.jar 
+COPY --chown=corda:corda /drivers/prom_jmx_exporter.yaml /opt/corda/drivers/prom_jmx_exporter.yaml
+
+COPY --chown=corda:corda /configFiles/log4j2.xml /etc/corda/log4j2.xml
+
 USER "corda"
 EXPOSE ${MY_P2P_PORT} ${MY_RPC_PORT} ${MY_RPC_ADMIN_PORT}
+
 WORKDIR /opt/corda
-CMD ["sh", "-c", "java -jar /opt/corda/bin/corda.jar run-migration-scripts --core-schemas --app-schemas -f /etc/corda/node.conf && java -jar /opt/corda/bin/corda.jar --base-directory /opt/corda  --config-file /etc/corda/node.conf && sleep 3600"]
+CMD ["sh", "-c", "java -jar /opt/corda/bin/corda.jar run-migration-scripts --core-schemas --app-schemas -f /etc/corda/node.conf && java -Dcapsule.jvm.args=\"${JVM_ARGS}\" -jar /opt/corda/bin/corda.jar --base-directory /opt/corda  --config-file /etc/corda/node.conf && sleep 3600"]
 # CMD ["sh", "-c", "sleep 3600"]

@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Corda 4.8 Logging notes @
+    https://docs.r3.com/en/platform/corda/4.8/enterprise/node/operating/node-administration.html#logging
+
+    Default logging configuration @
+    https://github.com/corda/corda/blob/release/os/4.9/config/dev/log4j2.xml
+-->
+<Configuration status="WARN" shutdownHook="disable">
+    <Properties>
+        <Property name="log-path">${sys:log-path:-logs}</Property>
+        <Property name="log-name">node-${hostName}</Property>
+        <Property name="diagnostic-log-name">diagnostic-${hostName}</Property>
+        <Property name="archive">${log-path}/archive</Property>
+        <Property name="defaultLogLevel">${sys:defaultLogLevel:-info}</Property>
+        <Property name="consoleLogLevel">${sys:consoleLogLevel:-error}</Property>
+    </Properties>
+    <Appenders>
+        <Console name="ConsoleAppender" target="SYSTEM_OUT">
+          <!-- <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} trace_id: %X{traceId} span_id: %X{spanId} - %msg%n" /> -->
+          <PatternLayout>
+            <ScriptPatternSelector
+                  defaultPattern="%highlight{[%level{length=5}] %date{HH:mm:ssZ} [%t] %c{2}.%method - %msg%n%throwable{0}}{INFO=white,WARN=red,FATAL=bright red}">
+              <Script name="MDCSelector" language="javascript">
+                <![CDATA[
+                  result = null;
+                  if (!logEvent.getContextData().size() == 0) {
+                      result = "WithMDC";
+                  } else {
+                      result = null;
+                  }
+                  result;
+                ]]>
+              </Script>
+              <PatternMatch key="WithMDC" pattern="%highlight{[%level{length=5}] %date{HH:mm:ssZ} [%t] %c{2}.%method - %msg %X%n%throwable{0}}{INFO=white,WARN=red,FATAL=bright red}"/>
+            </ScriptPatternSelector>
+          </PatternLayout>
+        </Console>
+        <Console name="ConsoleJSONAppender" target="SYSTEM_OUT">
+          <JsonLayout complete="false" compact="true"/>
+          <JsonTemplateLayout eventTemplateUri="classpath:LogstashJsonEventLayoutV1.json">
+            <EventTemplateAdditionalField key="trace_id" format="JSON"
+               value='{"$resolver": "mdc", "key": "traceId"}'/>
+            <EventTemplateAdditionalField key="span_id" format="JSON"
+               value='{"$resolver": "mdc", "key": "spanId"}'/>
+          </JsonTemplateLayout>
+        </Console>
+        <File name="FileAppender" fileName="logs/node-${env:NODE_NAME}.log">
+        <!--
+          <PatternLayout>
+            <Pattern>%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} trace_id: %X{traceId} span_id: %X{spanId} - %msg%n</Pattern>
+          </PatternLayout>
+        -->
+          <PatternLayout>
+            <ScriptPatternSelector defaultPattern="[%-5level] %date{ISO8601}{UTC}Z [%t] %c{2}.%method - %msg%n">
+              <Script name="MDCSelector" language="javascript">
+                <![CDATA[
+                  result = null;
+                  if (!logEvent.getContextData().size() == 0) {
+                      result = "WithMDC";
+                  } else {
+                      result = null;
+                  }
+                  result;
+                ]]>
+              </Script>
+              <PatternMatch key="WithMDC" pattern="[%-5level] %date{ISO8601}{UTC}Z [%t] %c{2}.%method - %msg %X%n"/>
+            </ScriptPatternSelector>
+          </PatternLayout>
+        </File>
+        <File name="FileJSONAppender" fileName="logs/node-${env:NODE_NAME}-json.log">
+          <!-- <JsonLayout complete="false" compact="true" properties="true" eventEol="true"/> -->
+          <JsonTemplateLayout eventTemplateUri="classpath:LogstashJsonEventLayoutV1.json">
+            <EventTemplateAdditionalField key="trace_id" format="JSON"
+               value='{"$resolver": "mdc", "key": "traceId"}'/>
+            <EventTemplateAdditionalField key="span_id" format="JSON"
+               value='{"$resolver": "mdc", "key": "spanId"}'/>
+          </JsonTemplateLayout>
+        </File>
+    </Appenders>
+    <Loggers>
+        <Logger name="BasicInfo" additivity="false">
+            <AppenderRef ref="ConsoleJSONAppender"/>
+            <AppenderRef ref="FileJSONAppender"/>
+            <AppenderRef ref="FileAppender"/>
+        </Logger>
+        <Logger name="net.corda" level="info" additivity="false">
+            <AppenderRef ref="ConsoleJSONAppender"/>
+            <AppenderRef ref="FileJSONAppender"/>
+            <AppenderRef ref="FileAppender"/>
+        </Logger>
+        <Logger name="com.r3.corda" level="info" additivity="false">
+            <AppenderRef ref="ConsoleJSONAppender"/>    
+            <AppenderRef ref="FileJSONAppender"/>
+            <AppenderRef ref="FileAppender"/>
+        </Logger>
+        <Logger name="org.hibernate" level="info" additivity="false">
+            <AppenderRef ref="ConsoleJSONAppender"/>    
+            <AppenderRef ref="FileJSONAppender"/>
+            <AppenderRef ref="FileAppender"/>
+        </Logger>
+        <Logger name="org.hibernate.SQL" level="info" additivity="false">
+            <AppenderRef ref="ConsoleJSONAppender"/>    
+            <AppenderRef ref="FileJSONAppender"/>
+            <AppenderRef ref="FileAppender"/>
+        </Logger>
+        <Logger name="org.postgresql" level="info" additivity="false">
+            <AppenderRef ref="ConsoleJSONAppender"/>    
+            <AppenderRef ref="FileJSONAppender"/>
+            <AppenderRef ref="FileAppender"/>
+        </Logger>
+        <Logger name="org.apache.activemq.artemis.core.server" level="error" additivity="false">
+            <AppenderRef ref="ConsoleJSONAppender"/>    
+            <AppenderRef ref="FileJSONAppender"/>
+            <AppenderRef ref="FileAppender"/>
+        </Logger>
+        <Logger name="org.apache.activemq.audit" level="error" additivity="false">
+            <AppenderRef ref="ConsoleJSONAppender"/>    
+            <AppenderRef ref="FileJSONAppender"/>
+            <AppenderRef ref="FileAppender"/>
+        </Logger>
+        <Logger name="org.jolokia" additivity="true" level="warn">
+            <AppenderRef ref="ConsoleJSONAppender"/>    
+            <AppenderRef ref="FileJSONAppender"/>
+            <AppenderRef ref="FileAppender"/>
+        </Logger>
+        <Root level="info">
+            <AppenderRef ref="ConsoleJSONAppender"/>            
+            <AppenderRef ref="FileJSONAppender"/>
+            <AppenderRef ref="FileAppender"/>
+        </Root>
+    </Loggers>
+</Configuration>

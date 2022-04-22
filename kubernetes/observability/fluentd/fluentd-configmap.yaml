@@ -1,0 +1,133 @@
+#@include file-fluent.conf
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: fluentd-config
+  namespace: corda
+data:
+  fluent.conf: |-
+    ################################################################
+    # This source gets all logs from local docker host
+    # @include pods-kind-port
+    # @include pods-kind-corda-files
+    @include pods-stdout-fluent.conf
+    # @include pods-kind-fluent.conf
+    # @include pods-fluent.conf
+    @include file-fluent.conf
+    #@include elastic-splunk-fluent.conf
+  pods-kind-port: |-
+    <source>
+      @type forward
+      port 24224
+      bind 0.0.0.0
+    </source>
+  pods-kind-corda-files: |-
+    <source>
+      @type tail
+      path /var/log/partya/node-partya-json.log,/var/log/partyb/node-partyb-json.log,/var/log/notary/node-notary-json.log   
+      pos_file /var/log/fluentd/logs.log.pos
+      time_format "%Y-%m-%dT%H:%M:%S.%L%Z"
+      tag node.*
+      read_from_head true
+      format none
+    </source>
+  pods-kind-fluent.conf: |-
+    <source>
+      @type tail
+      read_from_head true
+      tag kubernetes.*
+      path /var/log/containers/*.log
+      pos_file /var/log/fluentd-containers.log.pos
+      exclude_path ["/var/log/containers/fluent*"]
+      <parse>
+        @type regexp
+        #https://regex101.com/r/ZkOBTI/1
+        expression ^(?<time>\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.[^Z]*Z)\s(?<stream>[^\s]+)\s(?<character>[^\s])\s(?<message>.*)$
+        #time_format %Y-%m-%dT%H:%M:%S.%NZ
+      </parse>
+    </source>
+
+    <filter kubernetes.**>
+      @type kubernetes_metadata
+      @id filter_kube_metadata
+      kubernetes_url "#{ENV['FLUENT_FILTER_KUBERNETES_URL'] || 'https://' + ENV.fetch('KUBERNETES_SERVICE_HOST') + ':' + ENV.fetch('KUBERNETES_SERVICE_PORT') + '/api'}"
+      verify_ssl "#{ENV['KUBERNETES_VERIFY_SSL'] || true}"
+      ca_file "#{ENV['KUBERNETES_CA_FILE']}"
+      skip_labels "#{ENV['FLUENT_KUBERNETES_METADATA_SKIP_LABELS'] || 'false'}"
+      skip_container_metadata "#{ENV['FLUENT_KUBERNETES_METADATA_SKIP_CONTAINER_METADATA'] || 'false'}"
+      skip_master_url "#{ENV['FLUENT_KUBERNETES_METADATA_SKIP_MASTER_URL'] || 'false'}"
+      skip_namespace_metadata "#{ENV['FLUENT_KUBERNETES_METADATA_SKIP_NAMESPACE_METADATA'] || 'false'}"
+    </filter>
+  pods-stdout-fluent.conf: |-
+    <source>
+      @type tail
+      read_from_head true
+      tag node.*
+      path /var/log/containers/party*.log
+      pos_file /var/log/fluentd-containers.log.pos
+      exclude_path ["/var/log/containers/fluent*"]
+      time_format "%Y-%m-%dT%H:%M:%S.%L%Z"
+      format none
+    </source>
+
+    # <filter kubernetes.**>
+    #   @type kubernetes_metadata
+    #   @id filter_kube_metadata
+    #   kubernetes_url "#{ENV['FLUENT_FILTER_KUBERNETES_URL'] || 'https://' + ENV.fetch('KUBERNETES_SERVICE_HOST') + ':' + ENV.fetch('KUBERNETES_SERVICE_PORT') + '/api'}"
+    #   verify_ssl "#{ENV['KUBERNETES_VERIFY_SSL'] || true}"
+    #   ca_file "#{ENV['KUBERNETES_CA_FILE']}"
+    #   skip_labels "#{ENV['FLUENT_KUBERNETES_METADATA_SKIP_LABELS'] || 'false'}"
+    #   skip_container_metadata "#{ENV['FLUENT_KUBERNETES_METADATA_SKIP_CONTAINER_METADATA'] || 'false'}"
+    #   skip_master_url "#{ENV['FLUENT_KUBERNETES_METADATA_SKIP_MASTER_URL'] || 'false'}"
+    #   skip_namespace_metadata "#{ENV['FLUENT_KUBERNETES_METADATA_SKIP_NAMESPACE_METADATA'] || 'false'}"
+    # </filter>
+  file-fluent.conf: |-
+    <match **>
+        @type file
+        path /var/log/fluent/node
+        <buffer time>
+          timekey_wait 5m
+          timekey 86400
+          timekey_use_utc true
+          path /var/log/fluent/node/logs.*
+        </buffer>
+        append true
+    </match>
+  elastic-splunk-fluent.conf: |-
+    <match **>
+    # <match docker.*.*>
+      @type copy
+      <store>
+        @type elasticsearch
+        host elasticsearch
+        port 9200
+        logstash_format true
+        logstash_prefix fluentd
+        logstash_dateformat %Y.%m.%d
+        include_tag_key true
+        type_name access_log
+        tag_key @log_name
+        <buffer>
+          flush_interval 1s
+          flush_thread_count 2
+        </buffer>
+      </store>
+      <store>
+        @type splunk_hec
+        host  splunkenterprise
+        port  8088
+        token 01ae3236-2e3e-46ab-be6b-a87fb71538f2
+        output_format json
+        enableSSL 0
+        #ssl_version     TLSv1_3
+        <buffer>
+            @type memory
+            flush_mode  interval
+            flush_interval  2
+            flush_thread_count  2
+            overflow_action block
+            retry_forever true
+        </buffer>  
+      </store>
+    </match>

@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: splunkenterprise
+  labels:
+    app: splunkenterprise
+spec:
+
+  selector:
+    matchLabels:
+      app: splunkenterprise
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: splunkenterprise
+    spec: 
+      volumes:
+        - name: opt-splunk-etc
+          hostPath:
+            path: /var/log/splunk/etc
+        - name: opt-splunk-var
+          hostPath:
+            path: /var/log/splunk/var              
+      containers:
+      - name: splunk
+        image: splunk/splunk:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8000 # client
+        - containerPort: 9997 # indexer
+        - containerPort: 8088 # rest
+        - containerPort: 1514 # tcp
+        env:
+        - name: SPLUNK_START_ARGS
+          value: "--accept-license"
+        - name: SPLUNK_ENABLE_LISTEN
+          value: "9997"
+        - name: SPLUNK_ADD
+          value: "tcp 1514"
+        - name: SPLUNK_PASSWORD
+          value: password
+        volumeMounts:
+        - name: opt-splunk-etc
+          mountPath: /opt/splunk/etc
+        - name: opt-splunk-var
+          mountPath: /opt/splunk/var         
+        
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: splunkenterprise
+  labels:
+    app: splunkenterprise
+spec:
+  type: ClusterIP
+  selector:
+    app: splunkenterprise
+  ports:
+    - protocol: TCP
+      name: http
+      port: 8000
+      targetPort: 8000
+    - protocol: TCP
+      name: rest
+      port: 8088
+      targetPort: 8088

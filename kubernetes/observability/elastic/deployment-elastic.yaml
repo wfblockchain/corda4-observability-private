@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: elasticsearch
+  labels:
+    app: elasticsearch
+spec:
+  selector:
+    matchLabels:
+      app: elasticsearch
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: elasticsearch
+    spec:
+      containers:
+      - name: elasticsearch
+        image: elasticsearch:8.0.0
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 9200
+        env:
+        - name: discovery.type
+          value: "single-node"
+        - name: xpack.security.enabled
+          value: "false"
+        - name: ES_JAVA_OPTS
+          value: "-Xmx256m -Xms256m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: elasticsearch
+  labels:
+    app: elasticsearch
+spec:
+  type: ClusterIP
+  selector:
+    app: elasticsearch
+  ports:
+    - protocol: TCP
+      name: http
+      port: 9200
+      targetPort: 9200

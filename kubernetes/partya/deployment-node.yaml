@@ -26,12 +26,17 @@ spec:
         - image: cordapps:4.8.6
           securityContext:
             allowPrivilegeEscalation: false
-            runAsGroup: 3000
+            runAsGroup: 1000
           name: corda
           imagePullPolicy: Never # to pull from local image
           # To delete an image from minikube do the following
           #  minikube image rm docker.io/library/corda:4.8.6
           #  minikube image load docker.io/library/corda:4.8.6
+          env:
+            - name: NODE_NAME
+              value: partya
+            - name: JVM_ARGS
+              value: "-XX:+HeapDumpOnOutOfMemoryError -Djava.util.logging.config.file=/opt/corda/drivers/jdk_logging.properties -Dlog4j.configurationFile=/opt/corda/drivers/log4j2.xml -cp /opt/corda/drivers/log4j-layout-template-json-2.17.1.jar -javaagent:/opt/corda/drivers/jmx_prometheus_javaagent-0.16.1.jar=8080:/opt/corda/drivers/prom_jmx_exporter.yaml"
           ports:
             - containerPort: 10003 # P2P PORT
             - containerPort: 10004 # RPC PORT
@@ -61,10 +66,27 @@ spec:
             - mountPath: /opt/corda/certificates/truststore.jks
               name: secret-vol
               subPath: truststore
+            - mountPath: /etc/corda/log4j2.xml
+              name: vol1
+              subPath: log4j2
+            - name: varlog
+              mountPath: /var/log
+            - name: varlibdockercontainers
+              mountPath: /var/lib/docker/containers
+            - name: logs
+              mountPath: /opt/corda/logs
       volumes:
         - name: data
           persistentVolumeClaim:
             claimName: partya-pvc
+        - name: varlog
+          hostPath:
+            path: /var/log
+        - name: logs
+          emptyDir: {}
+        - name: varlibdockercontainers
+          hostPath:
+            path: /var/lib/docker/containers
         - name: secret-vol
           secret:
             secretName: partya-secrets
@@ -84,6 +106,8 @@ spec:
                 path: persistenceTraceDb
               - key: node-info
                 path: node-info
+              - key: log4j2
+                path: log4j2
             name: partya-conf
           name: vol1
 ---

@@ -21,4 +21,4 @@ kubectl -n corda create -f deployment-node.yaml
 # list cordapps
 kubectl -n corda exec -it partya-0 bash -- ls cordapps/  -pla
 #list all file
-kubectl -n corda get pod  && kubectl -n corda logs -l app=partya
+kubectl -n corda get pod, svc, deploy  && kubectl -n corda logs -l app=partya
