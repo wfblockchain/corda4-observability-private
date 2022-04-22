@@ -29,7 +29,7 @@ ENV  PERSISTENCE_FOLDER="/opt/corda/persistence" \
     MY_RPC_PORT=10201 \
     MY_RPC_ADMIN_PORT=10202 \
     PATH=$PATH:/opt/corda/bin \
-    JVM_ARGS="-XX:+HeapDumpOnOutOfMemoryError -Djava.util.logging.config.file=/opt/corda/drivers/jdk_logging.properties -Dlog4j.configurationFile=/opt/corda/drivers/log4j2.xml -cp /opt/corda/drivers/log4j-layout-template-json-2.17.1.jar -javaagent:/opt/corda/drivers/jmx_prometheus_javaagent-0.16.1.jar=8080:/opt/corda/drivers/prom_jmx_exporter.yaml" \
+    JVM_ARGS="-XX:+HeapDumpOnOutOfMemoryError -Djava.util.logging.config.file=/opt/corda/drivers/jdk_logging.properties -Dlog4j.configurationFile=/etc/corda/log4j2.xml -cp /opt/corda/drivers/log4j-layout-template-json-2.17.1.jar -javaagent:/opt/corda/drivers/jmx_prometheus_javaagent-0.16.1.jar=8080:/opt/corda/drivers/prom_jmx_exporter.yaml" \
     CORDA_ARGS=""\
     NODE_NAME="${HOSTNAME}"
 
