@@ -1,5 +1,6 @@
 echo "set fluentd configmap\n"
 # kubectl -n corda delete -f fluentd-configmap.yaml
+# kubectl -n corda apply -f fluentd-configmap.yaml
 kubectl -n corda create -f fluentd-configmap.yaml
 
 echo "set fluentd rbac\n"

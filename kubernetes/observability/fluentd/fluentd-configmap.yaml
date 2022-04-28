@@ -95,7 +95,7 @@ data:
         logstash_dateformat %Y.%m.%d
         include_tag_key true
         type_name access_log
-        tag_key @log_name
+        tag_key @message
         <buffer>
           flush_interval 1s
           flush_thread_count 2

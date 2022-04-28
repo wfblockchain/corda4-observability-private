@@ -14,11 +14,13 @@
     <Property name="archive">${log-path}/archive</Property>
     <Property name="defaultLogLevel">${sys:defaultLogLevel:-info}</Property>
     <Property name="consoleLogLevel">${sys:consoleLogLevel:-error}</Property>
+    <Property name="default-pattern">[%-5level] %d{ISO8601}{UTC}Z %logger{1} %C.%M@%L %xEx{full} [ProcessID:%pid ThreadID:%T ThreadName:%t %X{actor_id, actor_owning_identity, trackingId, tx_id, flow_id} ComputerName:${hostName}] |%msg|%n</Property>
   </Properties>
   <Appenders>
     <Console name="ConsoleAppender" target="SYSTEM_OUT">
       <!-- <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} trace_id: %X{traceId} span_id: %X{spanId} - %msg%n" /> -->
-      <PatternLayout>
+      <PatternLayout pattern="${default-pattern}"/>
+      <!-- <PatternLayout>
         <ScriptPatternSelector defaultPattern="%highlight{[%level{length=5}] %date{HH:mm:ssZ} [%t] %c{2}.%method - %msg%n%throwable{0}}{INFO=white,WARN=red,FATAL=bright red}">
           <Script name="MDCSelector" language="javascript">
             <![CDATA[
@@ -30,10 +32,10 @@
                   }
                   result;
                 ]]>
-          </Script>
-          <PatternMatch key="WithMDC" pattern="%highlight{[%level{length=5}] %date{HH:mm:ssZ} [%t] %c{2}.%method - %msg %X%n%throwable{0}}{INFO=white,WARN=red,FATAL=bright red}"/>
-        </ScriptPatternSelector>
-      </PatternLayout>
+</Script>
+<PatternMatch key="WithMDC" pattern="%highlight{[%level{length=5}] %date{HH:mm:ssZ} [%t] %c{2}.%method - %msg %X%n%throwable{0}}{INFO=white,WARN=red,FATAL=bright red}"/>
+</ScriptPatternSelector>
+</PatternLayout> -->
     </Console>
     <Console name="ConsoleJSONAppender" target="SYSTEM_OUT">
       <JsonLayout complete="false" compact="true"/>

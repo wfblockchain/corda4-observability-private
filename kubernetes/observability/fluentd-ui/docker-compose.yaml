@@ -1,0 +1,18 @@
+version: "3"
+services:
+  fluentd:
+    container_name: fluentd-ui
+    user: root
+    image: fluent/fluentd-ui:1.0.0
+    ports:
+      - "9292:9292"
+      - "18080:18080"
+      - "24224:24224"
+    volumes:
+    - /var/lib/docker/containers:/fluentd/log/containers
+    - ./input/logs:/var/log/input
+    - ./output/logs:/var/log/output
+    - ./config/fluent.conf:/root/.fluentd-ui/fluent.conf
+    logging:
+      driver: "local"
+  # user admin/changem
